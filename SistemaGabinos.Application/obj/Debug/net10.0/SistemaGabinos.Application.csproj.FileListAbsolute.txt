@@ -1,0 +1,16 @@
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\bin\Debug\net10.0\SistemaGabinos.Application.deps.json
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\bin\Debug\net10.0\SistemaGabinos.Application.dll
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\bin\Debug\net10.0\SistemaGabinos.Application.pdb
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\bin\Debug\net10.0\SistemaGabinos.Domain.dll
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\bin\Debug\net10.0\SistemaGabinos.Domain.pdb
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.csproj.AssemblyReference.cache
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.AssemblyInfoInputs.cache
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.AssemblyInfo.cs
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.csproj.CoreCompileInputs.cache
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.sourcelink.json
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaG.A6FC62D0.Up2Date
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.dll
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\refint\SistemaGabinos.Application.dll
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\SistemaGabinos.Application.pdb
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos.Application\obj\Debug\net10.0\ref\SistemaGabinos.Application.dll

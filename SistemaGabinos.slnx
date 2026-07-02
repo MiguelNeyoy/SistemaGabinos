@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="SistemaGabinos.Application/SistemaGabinos.Application.csproj" />
+  <Project Path="SistemaGabinos.Domain/SistemaGabinos.Domain.csproj" />
+  <Project Path="SistemaGabinos.Infrastructure/SistemaGabinos.Infrastructure.csproj" />
   <Project Path="SistemaGabinos/SistemaGabinos.csproj" />
 </Solution>

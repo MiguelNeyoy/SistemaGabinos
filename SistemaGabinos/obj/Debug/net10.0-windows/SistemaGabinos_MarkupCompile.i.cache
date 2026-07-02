@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Proyectos\SistemaGabinos\SistemaGabinos\obj\Debug\net10.0-windows\
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos\obj\Debug\net10.0-windows\
 SistemaGabinos
 none
 false
 TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-D:\Proyectos\SistemaGabinos\SistemaGabinos\App.xaml
-11407045341
+C:\Users\vboxuser\Documents\SistemaGabinos\SistemaGabinos\App.xaml
+4-763068878
 
-61094570812
-206-1943539212
-MainWindow.xaml;
+91443157817
+258-652814833
+MainWindow.xaml;Views\Login.xaml;Views\NuevaMatricula.xaml;Views\PanelDeControl.xaml;
 
-False
+True
 

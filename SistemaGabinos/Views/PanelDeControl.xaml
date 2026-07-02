@@ -1,0 +1,33 @@
+<Page x:Class="SistemaGabinos.Views.PanelDeControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SistemaGabinos.Views"
+        mc:Ignorable="d"
+        Title="PanelDeControl">
+    <Grid Background="White" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Nueva matrícula" Margin="10" Padding="5"/>
+                <Button Grid.Column="1" Content="Pago Rapido" Margin="10" Padding="5"/>
+                <Button Grid.Column="2" Content="Corte de caja" Margin="10" Padding="5"/>
+            </Grid>
+        </StackPanel>
+
+        <Label Grid.Row="1" Margin="10" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Height="30" VerticalAlignment="Top">Alumnos Activos</Label>
+
+        <StackPanel Grid.Row="2"/>
+    </Grid>
+</Page>

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SistemaGabinos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28d3e0d9dfcb3d47a93d26e090988afebb2c1b14")]
 [assembly: System.Reflection.AssemblyProductAttribute("SistemaGabinos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SistemaGabinos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
