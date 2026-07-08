@@ -22,7 +22,7 @@
                 <Label Margin="10" HorizontalAlignment="Center" FontWeight="Bold">Teacher Gabinos</Label>
                 <Image  /> 
                 <Button Content="Panel De Control" Margin="10" Padding="5" Click="FunctionPanel_Click"/>
-                <Button Content="Nuevo Alumno" Margin="10" Padding="5" Click="NewErollment"/>
+                <Button Content="Nuevo Alumno" Margin="10" Padding="5" Click="NewEnrollment"/>
                 <Button Content="Pagos Extras" Margin="10" Padding="5"/>
                 <Button Content="Configuracion " Margin="10" Padding="5" Click="Button_Click"/>
             </StackPanel>

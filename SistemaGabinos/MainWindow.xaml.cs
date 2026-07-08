@@ -15,6 +15,10 @@ namespace SistemaGabinos
             PrimaryContainer.Navigate(new PanelDeControl());
         }
 
+        private void NewEnrollment(object sender, RoutedEventArgs e)
+        {
+            PrimaryContainer.Navigate(new NuevaMatricula());
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
