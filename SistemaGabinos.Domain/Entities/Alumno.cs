@@ -1,7 +1,8 @@
 // Alumno.cs
 // Entidad principal que representa un estudiante registrado en el sistema.
 // Si el alumno es menor de 18 años, los datos del tutor (NombreTutor, ParentescoTutor, TelefonoTutor) son obligatorios.
-// CURP es un identificador único mexicano.
+// CURP es un identificador único mexicano de 18 caracteres alfanuméricos.
+using System.Text.RegularExpressions;
 using SistemaGabinos.Domain.Enums;
 using SistemaGabinos.Domain.Exceptions;
 
@@ -42,8 +43,15 @@ public class Alumno
         Estado = EstadoAlumno.Activo;
     }
 
+    private static readonly Regex CurpRegex = new(
+        @"^[A-Z]{4}\d{6}[H,M][A-Z]{5}[0-9A-Z]\d$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     public void ValidarReglasDeNegocio()
     {
+        if (!CurpRegex.IsMatch(CURP))
+            throw new CURPInvalidoException(CURP);
+
         var edad = DateTime.UtcNow.Year - FechaNacimiento.Year;
         if (FechaNacimiento.Date > DateTime.UtcNow.AddYears(-edad))
             edad--;
