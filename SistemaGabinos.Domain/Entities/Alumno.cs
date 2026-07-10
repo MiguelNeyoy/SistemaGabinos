@@ -54,7 +54,7 @@ public class Alumno
         }
 
         NombreCompleto = nombreCompleto;
-        CURP = curp;
+        CURP = curp.ToUpper();
         FechaNacimiento = fechaNacimiento;
         Telefono = telefono;
         NombreTutor = nombreTutor;
