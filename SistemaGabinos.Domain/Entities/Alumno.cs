@@ -32,6 +32,21 @@ public class Alumno
         string? parentescoTutor,
         string? telefonoTutor)
     {
+
+        if (string.IsNullOrWhiteSpace(nombreCompleto))
+        {
+            throw new ArgumentException("El nombre completo no puede estar vacío.", nameof(nombreCompleto));
+        }
+
+        if (string.IsNullOrWhiteSpace(curp) && curp.Trim().Length == 18 )
+        {
+            throw new ArgumentException("El CURP no puede estar vacío.", nameof(curp));
+        }
+        if (string.IsNullOrWhiteSpace(telefono) )
+        {
+            throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
+        }
+
         NombreCompleto = nombreCompleto;
         CURP = curp;
         FechaNacimiento = fechaNacimiento;

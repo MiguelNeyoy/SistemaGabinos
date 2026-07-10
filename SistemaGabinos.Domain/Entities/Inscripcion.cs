@@ -18,6 +18,9 @@ public class Inscripcion
 
     public Inscripcion(int alumnoId, int cursoId)
     {
+       if (alumnoId <= 0) throw new ArgumentException("AlumnoId debe ser mayor que cero.", nameof(alumnoId));
+       if(cursoId <= 0) throw new ArgumentException("CursoId debe ser mayor que cero.", nameof(cursoId));
+
         AlumnoId = alumnoId;
         CursoId = cursoId;
         FechaInscripcion = DateTime.UtcNow;
