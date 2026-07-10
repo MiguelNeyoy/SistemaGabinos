@@ -17,6 +17,18 @@ public class Recibo
 
     public Recibo(int pagoId, decimal monto, string folio, string detalle)
     {
+        if (pagoId <= 0)
+            throw new ArgumentException("El ID del pago debe ser mayor que cero.", nameof(pagoId));
+
+        if (monto <= 0)
+            throw new ArgumentException("El monto del recibo debe ser mayor que cero.", nameof(monto));
+
+        if (string.IsNullOrWhiteSpace(folio))
+            throw new ArgumentException("El folio no puede estar vacío.", nameof(folio));
+
+        if (string.IsNullOrWhiteSpace(detalle))
+            throw new ArgumentException("El detalle no puede estar vacío.", nameof(detalle));
+
         PagoId = pagoId;
         Monto = monto;
         FechaEmision = DateTime.UtcNow;

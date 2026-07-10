@@ -19,6 +19,15 @@ public class Deuda
 
     public Deuda(int alumnoId, ConceptoDeuda concepto, decimal montoTotal)
     {
+        if (alumnoId <= 0)
+            throw new ArgumentException("El ID del alumno debe ser mayor que cero.", nameof(alumnoId));
+
+        if (montoTotal <= 0)
+            throw new ArgumentException("El monto total de la deuda debe ser mayor que cero.", nameof(montoTotal));
+
+        if (!Enum.IsDefined(typeof(ConceptoDeuda), concepto))
+            throw new ArgumentException("El concepto de la deuda no es válido.", nameof(concepto));
+
         AlumnoId = alumnoId;
         Concepto = concepto;
         MontoTotal = montoTotal;

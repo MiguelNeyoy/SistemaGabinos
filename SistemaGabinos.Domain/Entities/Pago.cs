@@ -22,6 +22,18 @@ public class Pago
 
     public Pago(int alumnoId, int? deudaId, decimal monto, ConceptoPago concepto, MetodoPago metodoPago)
     {
+        if (alumnoId <= 0)
+            throw new ArgumentException("El ID del alumno debe ser mayor que cero.", nameof(alumnoId));
+
+        if (monto <= 0)
+            throw new ArgumentException("El monto del pago debe ser mayor que cero.", nameof(monto));
+
+        if (!Enum.IsDefined(typeof(ConceptoPago), concepto))
+            throw new ArgumentException("El concepto del pago no es válido.", nameof(concepto));
+
+        if (!Enum.IsDefined(typeof(MetodoPago), metodoPago))
+            throw new ArgumentException("El método de pago no es válido.", nameof(metodoPago));
+
         AlumnoId = alumnoId;
         DeudaId = deudaId;
         Monto = monto;

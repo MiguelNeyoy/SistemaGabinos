@@ -14,6 +14,12 @@ public class Curso
 
     public Curso(string nombre, decimal precioLibro)
     {
+        if (string.IsNullOrWhiteSpace(nombre))
+            throw new ArgumentException("El nombre del curso no puede estar vacío.", nameof(nombre));
+
+        if (precioLibro <= 0)
+            throw new ArgumentException("El precio del libro debe ser mayor que cero.", nameof(precioLibro));
+
         Nombre = nombre;
         PrecioLibro = precioLibro;
     }
