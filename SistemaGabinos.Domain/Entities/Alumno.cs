@@ -92,4 +92,56 @@ public class Alumno
     {
         Estado = EstadoAlumno.Inactivo;
     }
+
+    public void CambiarNombre(string nombreCompleto)
+    {
+        if (string.IsNullOrWhiteSpace(nombreCompleto))
+            throw new ArgumentException("El nombre completo no puede estar vacío.", nameof(nombreCompleto));
+        NombreCompleto = nombreCompleto;
+    }
+
+    public void CambiarFechaNacimiento(DateTime fechaNacimiento)
+    {
+        if (fechaNacimiento > DateTime.UtcNow)
+            throw new ArgumentException("La fecha de nacimiento no puede ser futura.", nameof(fechaNacimiento));
+        FechaNacimiento = fechaNacimiento;
+    }
+
+    public void CambiarTelefono(string telefono)
+    {
+        if (string.IsNullOrWhiteSpace(telefono))
+            throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
+        Telefono = telefono;
+    }
+
+    public void CambiarNombreTutor(string? nombreTutor)
+    {
+        NombreTutor = nombreTutor;
+    }
+
+    public void CambiarParentescoTutor(string? parentescoTutor)
+    {
+        ParentescoTutor = parentescoTutor;
+    }
+
+    public void CambiarTelefonoTutor(string? telefonoTutor)
+    {
+        TelefonoTutor = telefonoTutor;
+    }
+
+    public void ActualizarDatos(
+        string nombreCompleto,
+        DateTime fechaNacimiento,
+        string telefono,
+        string? nombreTutor,
+        string? parentescoTutor,
+        string? telefonoTutor)
+    {
+        CambiarNombre(nombreCompleto);
+        CambiarFechaNacimiento(fechaNacimiento);
+        CambiarTelefono(telefono);
+        CambiarNombreTutor(nombreTutor);
+        CambiarParentescoTutor(parentescoTutor);
+        CambiarTelefonoTutor(telefonoTutor);
+    }
 }
