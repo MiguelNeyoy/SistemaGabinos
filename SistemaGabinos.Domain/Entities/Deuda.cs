@@ -12,8 +12,9 @@ public class Deuda
     public int AlumnoId { get; private set; }
     public ConceptoDeuda Concepto { get; private set; }
     public decimal MontoTotal { get; private set; }
+    public decimal MontoPagado { get; private set; }
     public DateTime FechaCreacion { get; private set; }
-    public bool EstaPagada { get; private set; }
+    public bool EstaPagada => MontoPagado >= MontoTotal;
 
     private Deuda() { }
 
@@ -32,11 +33,17 @@ public class Deuda
         Concepto = concepto;
         MontoTotal = montoTotal;
         FechaCreacion = DateTime.UtcNow;
-        EstaPagada = false;
+
     }
 
-    public void MarcarComoPagada()
+    public void RegistrarAbono(decimal monto)
     {
-        EstaPagada = true;
+        if (monto <= 0)
+            throw new ArgumentException("El abono debe ser mayor que cero.");
+
+        if (MontoPagado + monto > MontoTotal)
+            throw new ArgumentException("El abono excede el saldo pendiente.");
+
+        MontoPagado += monto;
     }
 }

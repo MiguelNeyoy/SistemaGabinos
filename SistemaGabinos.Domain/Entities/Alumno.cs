@@ -48,7 +48,7 @@ public class Alumno
             throw new ArgumentException("La fecha de nacimiento no puede ser futura.", nameof(fechaNacimiento));
         }
 
-        if (string.IsNullOrWhiteSpace(telefono))
+        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length <= 10 )
         {
             throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
         }
@@ -109,7 +109,7 @@ public class Alumno
 
     public void CambiarTelefono(string telefono)
     {
-        if (string.IsNullOrWhiteSpace(telefono))
+        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length <= 10)
             throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
         Telefono = telefono;
     }
