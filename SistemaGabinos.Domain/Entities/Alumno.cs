@@ -148,5 +148,6 @@ public class Alumno
         CambiarNombreTutor(nombreTutor);
         CambiarParentescoTutor(parentescoTutor);
         CambiarTelefonoTutor(telefonoTutor);
+        ValidarReglasDeNegocio();
     }
 }
