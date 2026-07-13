@@ -5,11 +5,9 @@ using SistemaGabinos.Domain.Entities;
 
 namespace SistemaGabinos.Domain.Interfaces;
 
-public interface IAlumnoRepository
+public interface IAlumnoRepository : IRepository<Alumno>
 {
-    Alumno? ObtenerPorId(int id);
     Alumno? ObtenerPorCURP(string curp);
     List<Alumno> ObtenerTodos();
-    void Guardar(Alumno alumno);
     void Eliminar(int id);
 }

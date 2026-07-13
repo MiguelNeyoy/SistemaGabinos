@@ -4,9 +4,7 @@ using SistemaGabinos.Domain.Entities;
 
 namespace SistemaGabinos.Domain.Interfaces;
 
-public interface ICursoRepository
+public interface ICursoRepository : IRepository<Curso>
 {
-    Curso? ObtenerPorId(int id);
     List<Curso> ObtenerTodos();
-    void Guardar(Curso curso);
 }

@@ -5,9 +5,7 @@ using SistemaGabinos.Domain.Entities;
 
 namespace SistemaGabinos.Domain.Interfaces;
 
-public interface IInscripcionRepository
+public interface IInscripcionRepository : IRepository<Inscripcion>
 {
-    Inscripcion? ObtenerPorId(int id);
     List<Inscripcion> ObtenerPorAlumno(int alumnoId);
-    void Guardar(Inscripcion inscripcion);
 }

@@ -5,9 +5,7 @@ using SistemaGabinos.Domain.Entities;
 
 namespace SistemaGabinos.Domain.Interfaces;
 
-public interface IDeudaRepository
+public interface IDeudaRepository : IRepository<Deuda>
 {
-    Deuda? ObtenerPorId(int id);
     List<Deuda> ObtenerPorAlumno(int alumnoId);
-    void Guardar(Deuda deuda);
 }
