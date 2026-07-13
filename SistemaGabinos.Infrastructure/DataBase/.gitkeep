@@ -1,0 +1,3 @@
+// DataBase/
+// DbContext, migraciones de EF Core y repositorios concretos
+// que implementan las interfaces definidas en Domain.
