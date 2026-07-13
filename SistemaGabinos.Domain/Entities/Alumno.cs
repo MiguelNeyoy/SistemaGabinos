@@ -48,13 +48,13 @@ public class Alumno
             throw new ArgumentException("La fecha de nacimiento no puede ser futura.", nameof(fechaNacimiento));
         }
 
-        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length <= 10 )
+        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length < 10)
         {
-            throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
+            throw new ArgumentException("El teléfono debe tener al menos 10 caracteres.", nameof(telefono));
         }
 
         NombreCompleto = nombreCompleto;
-        CURP = curp.ToUpper();
+        CURP = curp.Trim().ToUpper();
         FechaNacimiento = fechaNacimiento;
         Telefono = telefono;
         NombreTutor = nombreTutor;
@@ -65,7 +65,7 @@ public class Alumno
     }
 
     private static readonly Regex CurpRegex = new(
-        @"^[A-Z]{4}\d{6}[H,M][A-Z]{5}[0-9A-Z]\d$",
+        @"^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]\d$",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     public void ValidarReglasDeNegocio()
@@ -93,6 +93,11 @@ public class Alumno
         Estado = EstadoAlumno.Inactivo;
     }
 
+    public void Reactivar()
+    {
+        Estado = EstadoAlumno.Activo;
+    }
+
     public void CambiarNombre(string nombreCompleto)
     {
         if (string.IsNullOrWhiteSpace(nombreCompleto))
@@ -109,8 +114,8 @@ public class Alumno
 
     public void CambiarTelefono(string telefono)
     {
-        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length <= 10)
-            throw new ArgumentException("El teléfono no puede estar vacío.", nameof(telefono));
+        if (string.IsNullOrWhiteSpace(telefono) || telefono.Length < 10)
+            throw new ArgumentException("El teléfono debe tener al menos 10 caracteres.", nameof(telefono));
         Telefono = telefono;
     }
 

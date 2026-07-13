@@ -6,6 +6,7 @@ namespace SistemaGabinos.Domain.Enums;
 
 public enum ConceptoPago
 {
+    Inscripcion,
     Mensualidad,
     Libro
 }

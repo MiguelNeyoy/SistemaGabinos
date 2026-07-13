@@ -4,6 +4,7 @@
 // Concepto indica si es Mensualidad o Libro.
 // MetodoPago indica cómo se pagó (Efectivo, Transferencia, Tarjeta).
 using SistemaGabinos.Domain.Enums;
+using SistemaGabinos.Domain.Exceptions;
 
 namespace SistemaGabinos.Domain.Entities;
 
@@ -43,8 +44,15 @@ public class Pago
         EstaCancelado = false;
     }
 
-    public Recibo GenerarRecibo(string folio, string detalle)
+    public void Cancelar()
     {
-        return new Recibo(Id, Monto, folio, detalle);
+        if (EstaCancelado)
+            throw new DomainException("El pago ya está cancelado.");
+        EstaCancelado = true;
+    }
+
+    public Recibo GenerarRecibo(int pagoId, string folio, string detalle)
+    {
+        return new Recibo(pagoId, Monto, folio, detalle);
     }
 }

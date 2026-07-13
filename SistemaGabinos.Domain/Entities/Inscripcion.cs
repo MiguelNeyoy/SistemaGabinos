@@ -3,6 +3,7 @@
 // Este flujo es solo para alumnos nuevos que entran por primera vez al sistema.
 // Los alumnos que ya están registrados y avanzan de nivel no usan este flujo.
 using SistemaGabinos.Domain.Enums;
+using SistemaGabinos.Domain.Exceptions;
 
 namespace SistemaGabinos.Domain.Entities;
 
@@ -18,8 +19,8 @@ public class Inscripcion
 
     public Inscripcion(int alumnoId, int cursoId)
     {
-       if (alumnoId <= 0) throw new ArgumentException("AlumnoId debe ser mayor que cero.", nameof(alumnoId));
-       if(cursoId <= 0) throw new ArgumentException("CursoId debe ser mayor que cero.", nameof(cursoId));
+        if (alumnoId <= 0) throw new ArgumentException("AlumnoId debe ser mayor que cero.", nameof(alumnoId));
+        if (cursoId <= 0) throw new ArgumentException("CursoId debe ser mayor que cero.", nameof(cursoId));
 
         AlumnoId = alumnoId;
         CursoId = cursoId;
@@ -29,7 +30,14 @@ public class Inscripcion
 
     public void Activar()
     {
+        if (Estado == EstadoInscripcion.Vencida)
+            throw new DomainException("No se puede activar una inscripción vencida.");
         Estado = EstadoInscripcion.Vigente;
+    }
+
+    public void Vencer()
+    {
+        Estado = EstadoInscripcion.Vencida;
     }
 
     public void Cancelar()

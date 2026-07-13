@@ -33,13 +33,15 @@ public class Deuda
         Concepto = concepto;
         MontoTotal = montoTotal;
         FechaCreacion = DateTime.UtcNow;
-
     }
 
     public void RegistrarAbono(decimal monto)
     {
         if (monto <= 0)
             throw new ArgumentException("El abono debe ser mayor que cero.");
+
+        if (EstaPagada)
+            throw new ArgumentException("La deuda ya está completamente pagada.");
 
         if (MontoPagado + monto > MontoTotal)
             throw new ArgumentException("El abono excede el saldo pendiente.");
