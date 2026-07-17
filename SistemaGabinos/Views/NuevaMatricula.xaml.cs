@@ -1,12 +1,13 @@
+using SistemaGabinos.ViewModels;
 using System.Windows.Controls;
 
-namespace SistemaGabinos.Views
+namespace SistemaGabinos.Views;
+
+public partial class NuevaMatricula : Page
 {
-    public partial class NuevaMatricula : Page
+    public NuevaMatricula(NuevaMatriculaViewModel viewModel)
     {
-        public NuevaMatricula()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        DataContext = viewModel;
     }
 }

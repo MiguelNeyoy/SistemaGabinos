@@ -1,28 +1,27 @@
-﻿using SistemaGabinos.Views;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SistemaGabinos.Views;
 using System.Windows;
 
-namespace SistemaGabinos
+namespace SistemaGabinos;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void FunctionPanel_Click(object sender, RoutedEventArgs e)
-        {
-            PrimaryContainer.Navigate(new PanelDeControl());
-        }
+    private void FunctionPanel_Click(object sender, RoutedEventArgs e)
+    {
+        PrimaryContainer.Navigate(App.Services.GetRequiredService<PanelDeControl>());
+    }
 
-        private void NewEnrollment(object sender, RoutedEventArgs e)
-        {
-            PrimaryContainer.Navigate(new NuevaMatricula());
-        }
+    private void NewEnrollment(object sender, RoutedEventArgs e)
+    {
+        PrimaryContainer.Navigate(App.Services.GetRequiredService<NuevaMatricula>());
+    }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
     }
 }

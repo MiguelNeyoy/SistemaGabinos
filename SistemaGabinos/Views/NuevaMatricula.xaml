@@ -1,13 +1,50 @@
 <Page x:Class="SistemaGabinos.Views.NuevaMatricula"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SistemaGabinos.Views"
-        mc:Ignorable="d"
-        Title="NuevaMatricula"
-        Background="White">
-    <Grid>
-        <Label>Nueva Matrícula</Label>
-    </Grid>
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Nueva Matrícula" Background="White">
+
+    <ScrollViewer>
+        <StackPanel Margin="20" MaxWidth="400">
+            <TextBlock Text="Nueva Matrícula" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <TextBlock Text="CURP:"/>
+            <TextBox Text="{Binding Curp, UpdateSourceTrigger=PropertyChanged}" MaxLength="18"/>
+
+            <TextBlock Text="Nombre Completo:" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding NombreCompleto, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Fecha de Nacimiento:" Margin="0,5,0,0"/>
+            <DatePicker SelectedDate="{Binding FechaNacimiento}"/>
+
+            <TextBlock Text="Teléfono:" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding Telefono, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Curso:" Margin="0,10,0,0"/>
+            <ComboBox ItemsSource="{Binding Cursos}"
+                      SelectedItem="{Binding CursoSeleccionado}"
+                      DisplayMemberPath="Nombre"/>
+
+            <TextBlock Text="Monto Inicial:" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding MontoInicial, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Border BorderBrush="Gray" BorderThickness="0,1,0,0" Margin="0,15" Padding="0,5"
+                    Visibility="{Binding VisibleTutor}">
+                <TextBlock Text="Datos del Tutor (obligatorio si es menor de 18 años)" FontStyle="Italic"/>
+            </Border>
+
+            <TextBlock Text="Nombre del Tutor:"/>
+            <TextBox Text="{Binding NombreTutor, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Parentesco:" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding ParentescoTutor, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Text="Teléfono del Tutor:" Margin="0,5,0,0"/>
+            <TextBox Text="{Binding TelefonoTutor, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Content="Registrar Alumno" Command="{Binding RegistrarCommand}"
+                    Margin="0,15,0,0" Padding="10,5"/>
+
+            <TextBlock Text="{Binding Mensaje}" Foreground="Red" Margin="0,10,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+    </ScrollViewer>
 </Page>
