@@ -33,8 +33,8 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IDeudaRepository, DeudaRepository>();
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
-                services.AddSingleton<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();
-                services.AddSingleton<IBuscarAlumnoUseCase, BuscarAlumnoUseCase>();
+                services.AddScoped<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();
+                services.AddScoped<IBuscarAlumnoUseCase, BuscarAlumnoUseCase>();
 
                 services.AddTransient<NuevaMatriculaViewModel>();
                 services.AddTransient<NuevaMatricula>();
@@ -43,6 +43,12 @@ public partial class App : System.Windows.Application
             .Build();
 
         _host.Start();
+
+        using (var scope = _host.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<SistemaGabinosDBContext>();
+            db.Database.Migrate();
+        }
 
         base.OnStartup(e);
     }
