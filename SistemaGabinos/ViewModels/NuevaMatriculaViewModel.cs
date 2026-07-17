@@ -90,7 +90,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Mensaje = $"Error: {ex.Message}";
+            Mensaje = ex.Message;
         }
     }
 }

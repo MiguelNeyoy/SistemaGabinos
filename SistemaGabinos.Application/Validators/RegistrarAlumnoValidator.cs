@@ -7,11 +7,14 @@ public class RegistrarAlumnoValidator : AbstractValidator<RegistrarAlumnoRequest
 {
     public RegistrarAlumnoValidator()
     {
-        RuleFor(x => x.NombreCompleto).NotEmpty();
-        RuleFor(x => x.Curp).NotEmpty().Length(18);
-        RuleFor(x => x.FechaNacimiento).LessThan(DateTime.UtcNow);
-        RuleFor(x => x.Telefono).NotEmpty().MinimumLength(10);
-        RuleFor(x => x.CursoId).GreaterThan(0);
-        RuleFor(x => x.MontoInicial).GreaterThan(0);
+        RuleFor(x => x.NombreCompleto).NotEmpty().WithMessage("El nombre completo es obligatorio.");
+        RuleFor(x => x.Curp).NotEmpty().WithMessage("La CURP es obligatoria.")
+            .Length(18).WithMessage("La CURP debe tener exactamente 18 caracteres.");
+        RuleFor(x => x.FechaNacimiento).LessThan(DateTime.UtcNow)
+            .WithMessage("La fecha de nacimiento debe ser anterior a hoy.");
+        RuleFor(x => x.Telefono).NotEmpty().WithMessage("El teléfono es obligatorio.")
+            .MinimumLength(10).WithMessage("El teléfono debe tener al menos 10 dígitos.");
+        RuleFor(x => x.CursoId).GreaterThan(0).WithMessage("Debe seleccionar un curso.");
+        RuleFor(x => x.MontoInicial).GreaterThan(0).WithMessage("El monto inicial debe ser mayor a cero.");
     }
 }
