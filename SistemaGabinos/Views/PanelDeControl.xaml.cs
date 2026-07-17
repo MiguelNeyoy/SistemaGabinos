@@ -1,12 +1,17 @@
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Controls;
 
-namespace SistemaGabinos.Views
+namespace SistemaGabinos.Views;
+
+public partial class PanelDeControl : Page
 {
-    public partial class PanelDeControl : Page
+    public PanelDeControl()
     {
-        public PanelDeControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private void NuevaMatricula_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        NavigationService.Navigate(App.Services.GetRequiredService<NuevaMatricula>());
     }
 }

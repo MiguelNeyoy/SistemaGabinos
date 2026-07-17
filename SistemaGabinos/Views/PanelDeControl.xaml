@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Nueva matrícula" Margin="10" Padding="5"/>
+                <Button Grid.Column="0" Content="Nueva matrícula" Margin="10" Padding="5" Click="NuevaMatricula_Click"/>
                 <Button Grid.Column="1" Content="Pago Rapido" Margin="10" Padding="5"/>
                 <Button Grid.Column="2" Content="Corte de caja" Margin="10" Padding="5"/>
             </Grid>
