@@ -12,6 +12,12 @@ public class Curso
 
     private Curso() { }
 
+    public Curso(int id, string nombre, decimal precioLibro)
+        : this(nombre, precioLibro)
+    {
+        Id = id;
+    }
+
     public Curso(string nombre, decimal precioLibro)
     {
         if (string.IsNullOrWhiteSpace(nombre))

@@ -32,6 +32,13 @@ public class SistemaGabinosDBContext : DbContext
             entity.HasKey(c => c.Id);
             entity.Property(c => c.Nombre).IsRequired();
             entity.Property(c => c.PrecioLibro).IsRequired().HasColumnType("decimal(18,2)");
+            entity.HasData(
+                new Curso(1, "Book 1", 350m),
+                new Curso(2, "Book 2", 350m),
+                new Curso(3, "Book 3", 350m),
+                new Curso(4, "Book 4", 350m),
+                new Curso(5, "Book 5", 350m),
+                new Curso(6, "Book 6", 350m));
         });
 
         modelBuilder.Entity<Inscripcion>(entity =>
