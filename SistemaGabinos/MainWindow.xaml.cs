@@ -9,6 +9,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Loaded += (s, e) => PrimaryContainer.Navigate(
+            App.Services.GetRequiredService<PanelDeControl>()
+        );
     }
 
     private void FunctionPanel_Click(object sender, RoutedEventArgs e)

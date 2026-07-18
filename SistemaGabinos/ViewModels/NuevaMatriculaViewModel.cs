@@ -20,7 +20,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     private string _curp = string.Empty;
 
     [ObservableProperty]
-    private DateTime _fechaNacimiento = DateTime.Today;
+    private DateTime _fechaNacimiento = DateTime.Today.AddYears(-18);
 
     [ObservableProperty]
     private string _telefono = string.Empty;

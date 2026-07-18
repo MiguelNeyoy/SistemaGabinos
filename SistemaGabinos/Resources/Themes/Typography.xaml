@@ -1,0 +1,85 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="FontPoppins">pack://application:,,,/Fonts/#Poppins</FontFamily>
+
+    <!-- Display Large: 48px Bold 700 -->
+    <Style x:Key="DisplayLarge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="48" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineHeight" Value="56" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Headline Large: 32px SemiBold 600 -->
+    <Style x:Key="HeadlineLarge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Headline Medium: 24px SemiBold 600 -->
+    <Style x:Key="HeadlineMedium" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="32" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Title Large: 20px SemiBold 600 -->
+    <Style x:Key="TitleLarge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="LineHeight" Value="28" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Body Large: 16px Regular 400 -->
+    <Style x:Key="BodyLarge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="LineHeight" Value="24" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Body Medium: 14px Regular 400 -->
+    <Style x:Key="BodyMedium" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Regular" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Label Medium: 12px Medium 500 -->
+    <Style x:Key="LabelMedium" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrushTextMuted}" />
+    </Style>
+
+    <!-- Numeric / Metric value: 28px Bold -->
+    <Style x:Key="MetricValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+    </Style>
+
+    <!-- Metric label: 12px Medium uppercase -->
+    <Style x:Key="MetricLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Foreground" Value="{StaticResource BrushTextMuted}" />
+    </Style>
+
+</ResourceDictionary>

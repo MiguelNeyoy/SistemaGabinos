@@ -5,55 +5,89 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SistemaGabinos"
         mc:Ignorable="d"
-        Title="Teacher Gabinos" Height="768" Width="1024">
-    <Grid RenderTransformOrigin="0.489,0.513">
+        Title="Teacher Gabinos" Height="768" Width="1280"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource FontPoppins}">
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="#DDDDDD" Width="150">
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource BrushSurfaceAlt}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Logo area -->
+                <Border Grid.Row="0" Padding="24,28" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1">
+                    <TextBlock Text="GABINOS"
+                               Foreground="{StaticResource BrushText}"
+                               FontSize="22"
+                               FontWeight="Bold" />
+                </Border>
+
+                <!-- Navigation items -->
+                <StackPanel Grid.Row="1" Margin="0,16,0,0">
+                    <RadioButton Content="Panel de Control"
+                                 Style="{StaticResource SidebarItem}"
+                                 IsChecked="True"
+                                 Click="FunctionPanel_Click" />
+                    <RadioButton Content="Nueva Matrícula"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="NewEnrollment" />
+                    <RadioButton Content="Ventanilla de Cobro"
+                                 Style="{StaticResource SidebarItem}" />
+                    <RadioButton Content="Configuración"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="Button_Click" />
+                </StackPanel>
+
+                <!-- Logout -->
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0">
-                <Label Margin="10" HorizontalAlignment="Center" FontWeight="Bold">Teacher Gabinos</Label>
-                <Image  /> 
-                <Button Content="Panel De Control" Margin="10" Padding="5" Click="FunctionPanel_Click"/>
-                <Button Content="Nuevo Alumno" Margin="10" Padding="5" Click="NewEnrollment"/>
-                <Button Content="Pagos Extras" Margin="10" Padding="5"/>
-                <Button Content="Configuracion " Margin="10" Padding="5" Click="Button_Click"/>
-            </StackPanel>
-
-            <Button Grid.Row="1" Content="Cerrar Secion" Margin="10" Padding="5"/>
-        </Grid>
-
-        <Grid Grid.Column="1" Background="#FFFFFF">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Border Grid.Row="0" Background="#F0F0F0" Padding="10">
+            <!-- Top Bar -->
+            <Border Grid.Row="0" Background="{StaticResource BrushSurface}"
+                    BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1"
+                    Padding="24,14">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <TextBox Width="250" Height="28" VerticalAlignment="Center"/>
-                        <Button Content="Buscar" Margin="10,0,0,0" Padding="5"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="0" Text="Panel de Control"
+                               Style="{StaticResource TitleLarge}" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="2"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Border Background="{StaticResource BrushSurfaceAlt}"
+                                CornerRadius="20"
+                                Padding="12,6">
+                            <TextBlock Text="Admin"
+                                       Style="{StaticResource LabelMedium}" />
+                        </Border>
+                    </StackPanel>
                 </Grid>
             </Border>
 
-            <Frame x:Name="PrimaryContainer" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+            <!-- Page Frame -->
+            <Frame x:Name="PrimaryContainer"
+                   Grid.Row="1"
+                   NavigationUIVisibility="Hidden"
+                   Background="{StaticResource BrushSurfaceAlt}" />
         </Grid>
     </Grid>
 </Window>
