@@ -12,8 +12,10 @@ public class ConceptoCobroItem : INotifyPropertyChanged
     public string Descripcion
     {
         get => _descripcion;
-        set { _descripcion = value; OnPropertyChanged(); }
+        set { _descripcion = value; OnPropertyChanged(); OnPropertyChanged(nameof(NombreVisual)); }
     }
+
+    public string NombreVisual => Descripcion;
 
     public decimal Monto
     {

@@ -93,7 +93,7 @@
                         <Button Content="Generar Ticket"
                                 Style="{StaticResource ButtonSecondary}"
                                 Command="{Binding GenerarTicketCommand}"
-                                Height="36"
+                                Height="45"
                                 Visibility="{Binding TicketVisible}"
                                 HorizontalAlignment="Left" />
                     </StackPanel>
