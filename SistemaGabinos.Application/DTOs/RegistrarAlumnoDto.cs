@@ -1,3 +1,5 @@
+using SistemaGabinos.Domain.Enums;
+
 namespace SistemaGabinos.Application.DTOs;
 
 public record RegistrarAlumnoRequest(
@@ -9,7 +11,8 @@ public record RegistrarAlumnoRequest(
     string? ParentescoTutor,
     string? TelefonoTutor,
     int CursoId,
-    decimal MontoInicial);
+    decimal MontoInicial,
+    MetodoPago MetodoPago);
 
 public record RegistrarAlumnoResponse(
     int AlumnoId,

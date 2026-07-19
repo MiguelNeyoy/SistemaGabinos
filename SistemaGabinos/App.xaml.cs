@@ -31,6 +31,7 @@ public partial class App : System.Windows.Application
                 services.AddScoped<ICursoRepository, CursoRepository>();
                 services.AddScoped<IInscripcionRepository, InscripcionRepository>();
                 services.AddScoped<IDeudaRepository, DeudaRepository>();
+                services.AddScoped<IPagoRepository, PagoRepository>();
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
                 services.AddScoped<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();

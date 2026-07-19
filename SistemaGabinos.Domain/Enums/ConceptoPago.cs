@@ -8,5 +8,6 @@ public enum ConceptoPago
 {
     Inscripcion,
     Mensualidad,
-    Libro
+    Libro,
+    ExamenUbicacion
 }

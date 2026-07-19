@@ -181,6 +181,45 @@
         </Setter>
     </Style>
 
+    <!-- ToggleButton for payment method selection -->
+    <Style x:Key="ToggleButtonStyle" TargetType="ToggleButton">
+        <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Background" Value="{StaticResource BrushSurface}" />
+        <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrushBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="BorderTgl"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="BorderTgl" Property="Background" Value="{StaticResource BrushPrimary}" />
+                            <Setter TargetName="BorderTgl" Property="BorderBrush" Value="{StaticResource BrushPrimary}" />
+                            <Setter Property="Foreground" Value="{StaticResource BrushText}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderTgl" Property="BorderBrush" Value="{StaticResource BrushPrimary}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- DataGrid style -->
     <Style x:Key="TableStyle" TargetType="DataGrid">
         <Setter Property="FontFamily" Value="{StaticResource FontPoppins}" />

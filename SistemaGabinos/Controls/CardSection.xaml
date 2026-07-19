@@ -1,0 +1,12 @@
+<UserControl x:Class="SistemaGabinos.Controls.CardSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Style="{StaticResource CardStyle}" Padding="24">
+        <StackPanel>
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       Style="{StaticResource HeadlineMedium}"
+                       Margin="0,0,0,16" />
+            <ContentPresenter />
+        </StackPanel>
+    </Border>
+</UserControl>
