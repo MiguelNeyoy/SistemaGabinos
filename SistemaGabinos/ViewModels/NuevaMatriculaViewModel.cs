@@ -98,10 +98,12 @@ public partial class NuevaMatriculaViewModel : ObservableObject
         if (value is null)
         {
             CobroVisible = System.Windows.Visibility.Collapsed;
+            TicketVisible = System.Windows.Visibility.Collapsed;
             return;
         }
 
         CobroVisible = System.Windows.Visibility.Visible;
+        TicketVisible = System.Windows.Visibility.Visible;
         CargarConceptosCobro(value);
     }
 
@@ -168,6 +170,12 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             Mensaje = response.Mensaje;
             MensajeExitoVisible = System.Windows.Visibility.Visible;
             MensajeErrorVisible = System.Windows.Visibility.Collapsed;
+        }
+        catch (FluentValidation.ValidationException vex)
+        {
+            MensajeError = string.Join(Environment.NewLine, vex.Errors.Select(e => e.ErrorMessage));
+            MensajeErrorVisible = System.Windows.Visibility.Visible;
+            MensajeExitoVisible = System.Windows.Visibility.Collapsed;
         }
         catch (Exception ex)
         {

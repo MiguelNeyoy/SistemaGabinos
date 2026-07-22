@@ -58,19 +58,21 @@
                                        Foreground="{StaticResource BrushTextMuted}" />
                         </Border>
 
-                        <controls:FormField Label="Nombre del Tutor"
-                                            Text="{Binding NombreTutor}" />
-                        <Grid Margin="0,12,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="12" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <controls:FormField Grid.Column="0" Label="Parentesco"
-                                                Text="{Binding ParentescoTutor}" />
-                            <controls:FormField Grid.Column="2" Label="Teléfono del Tutor"
-                                                Text="{Binding TelefonoTutor}" />
-                        </Grid>
+                        <StackPanel Visibility="{Binding VisibleTutor}">
+                            <controls:FormField Label="Nombre del Tutor"
+                                                Text="{Binding NombreTutor}" />
+                            <Grid Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <controls:FormField Grid.Column="0" Label="Parentesco"
+                                                    Text="{Binding ParentescoTutor}" />
+                                <controls:FormField Grid.Column="2" Label="Teléfono del Tutor"
+                                                    Text="{Binding TelefonoTutor}" />
+                            </Grid>
+                        </StackPanel>
                     </StackPanel>
                 </controls:CardSection>
 
@@ -90,7 +92,7 @@
                         <Border BorderBrush="{StaticResource BrushBorder}"
                                 BorderThickness="0,1,0,0"
                                 Margin="0,12,0,12" />
-                        <Button Content="Generar Ticket"
+                        <Button Content="Generar Recibo"
                                 Style="{StaticResource ButtonSecondary}"
                                 Command="{Binding GenerarTicketCommand}"
                                 Height="45"
