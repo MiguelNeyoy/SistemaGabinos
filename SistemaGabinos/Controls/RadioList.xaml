@@ -1,12 +1,13 @@
 <UserControl x:Class="SistemaGabinos.Controls.RadioList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root">
     <StackPanel>
-        <TextBlock Text="{Binding Label, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <TextBlock Text="{Binding Label, ElementName=root}"
                    Style="{StaticResource LabelMedium}"
                    Margin="0,0,0,8" />
-        <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <ListBox ItemsSource="{Binding ItemsSource, ElementName=root}"
+                 SelectedItem="{Binding SelectedItem, ElementName=root}"
                  BorderThickness="0"
                  Background="Transparent"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"

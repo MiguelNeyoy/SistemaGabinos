@@ -1,12 +1,16 @@
 <UserControl x:Class="SistemaGabinos.Controls.ChecklistBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root">
     <StackPanel>
+        <TextBlock Text="Concepto"
+                   Style="{StaticResource LabelMedium}"
+                   Margin="0,0,0,4" />
         <Border BorderBrush="{StaticResource BrushBorder}"
                 BorderThickness="1"
                 CornerRadius="4"
                 Padding="0">
-            <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            <ListBox ItemsSource="{Binding ItemsSource, ElementName=root}"
                      BorderThickness="0"
                      Background="Transparent"
                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -24,7 +28,8 @@
                                 <CheckBox Grid.Column="0"
                                           IsChecked="{Binding Seleccionado}"
                                           VerticalAlignment="Center"
-                                          Margin="0,0,8,0" />
+                                          Margin="0,0,8,0"
+                                          Foreground="{StaticResource BrushText}" />
                                 <TextBlock Grid.Column="1"
                                            Text="{Binding NombreVisual}"
                                            Style="{StaticResource BodyMedium}"
@@ -51,7 +56,7 @@
                        Style="{StaticResource TitleLarge}"
                        VerticalAlignment="Center" />
             <TextBlock Grid.Column="1"
-                       Text="{Binding Total, RelativeSource={RelativeSource AncestorType=UserControl}, StringFormat={}${0:N2}}"
+                       Text="{Binding Total, ElementName=root, StringFormat={}${0:N2}}"
                        Style="{StaticResource TitleLarge}"
                        Foreground="{StaticResource BrushPrimary}"
                        TextAlignment="Right"
