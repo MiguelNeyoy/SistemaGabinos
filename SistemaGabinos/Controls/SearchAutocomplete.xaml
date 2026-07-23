@@ -1,0 +1,85 @@
+<UserControl x:Class="SistemaGabinos.Controls.SearchAutocomplete"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root">
+    <Grid>
+        <Grid x:Name="SearchGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Text="🔍"
+                       VerticalAlignment="Center"
+                       Margin="12,0,8,0"
+                       Foreground="{StaticResource BrushTextMuted}" />
+            <TextBox x:Name="SearchTextBox"
+                     Grid.Column="1"
+                     Text="{Binding SearchText, ElementName=root, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource InputStyle}"
+                     Padding="0,6"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     KeyDown="OnSearchTextBoxKeyDown" />
+        </Grid>
+
+        <TextBlock Text="{Binding PlaceholderText, ElementName=root}"
+                   IsHitTestVisible="False"
+                   VerticalAlignment="Center"
+                   Margin="44,0,0,0"
+                   Foreground="{StaticResource BrushTextMuted}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource BodyMedium}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=SearchTextBox}" Value="">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <Popup x:Name="DropdownPopup"
+               PlacementTarget="{Binding ElementName=SearchGrid}"
+               Placement="Bottom"
+               IsOpen="{Binding IsDropdownOpen, ElementName=root}"
+               StaysOpen="False"
+               PopupAnimation="Slide">
+            <Border Style="{StaticResource CardStyle}"
+                    Padding="0"
+                    MinWidth="{Binding ActualWidth, ElementName=SearchGrid}">
+                <ListBox ItemsSource="{Binding ItemsSource, ElementName=root}"
+                         SelectedItem="{Binding SelectedItem, ElementName=root}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         MaxHeight="300"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="12,10"
+                                    BorderBrush="{StaticResource BrushBorder}"
+                                    BorderThickness="0,0,0,1"
+                                    Cursor="Hand">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding NombreCompleto}"
+                                               Style="{StaticResource BodyMedium}" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Curp}"
+                                               Style="{StaticResource BodyMedium}"
+                                               Foreground="{StaticResource BrushTextMuted}"
+                                               Margin="16,0,0,0" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

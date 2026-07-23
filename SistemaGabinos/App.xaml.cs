@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,9 +36,15 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<RegistrarAlumnoValidator>();
                 services.AddScoped<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();
                 services.AddScoped<IBuscarAlumnoUseCase, BuscarAlumnoUseCase>();
+                services.AddScoped<IBuscarAlumnosSugerenciasUseCase, BuscarAlumnosSugerenciasUseCase>();
+                services.AddScoped<IObtenerExpedienteAlumnoUseCase, ObtenerExpedienteAlumnoUseCase>();
 
+                services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
+                services.AddTransient<ExpedienteAlumnoViewModel>();
+
                 services.AddTransient<NuevaMatricula>();
+                services.AddTransient<ExpedienteAlumno>();
                 services.AddTransient<PanelDeControl>();
             })
             .Build();
