@@ -12,6 +12,18 @@ public class AlumnoRepository : Repository<Alumno>, IAlumnoRepository
     public Alumno? ObtenerPorCURP(string curp)
         => DbSet.FirstOrDefault(a => a.CURP == curp);
 
+    public List<Alumno> BuscarPorNombreOCurp(string criterio, int maxResultados = 10)
+    {
+        if (string.IsNullOrWhiteSpace(criterio))
+            return new List<Alumno>();
+
+        var c = criterio.Trim();
+        return DbSet
+            .Where(a => EF.Functions.Like(a.NombreCompleto, $"%{c}%") || EF.Functions.Like(a.CURP, $"%{c}%"))
+            .Take(maxResultados)
+            .ToList();
+    }
+
     public List<Alumno> ObtenerTodos()
         => DbSet.ToList();
 
