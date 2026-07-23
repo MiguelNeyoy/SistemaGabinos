@@ -37,6 +37,9 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     private string? _telefonoTutor;
 
     [ObservableProperty]
+    private int? _alumnoId;
+
+    [ObservableProperty]
     private Curso? _cursoSeleccionado;
 
     [ObservableProperty]
@@ -167,6 +170,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
                 CursoSeleccionado.Id, Total, metodoPago);
 
             var response = _useCase.Ejecutar(request);
+            AlumnoId = response.AlumnoId;
             Mensaje = response.Mensaje;
             MensajeExitoVisible = System.Windows.Visibility.Visible;
             MensajeErrorVisible = System.Windows.Visibility.Collapsed;
