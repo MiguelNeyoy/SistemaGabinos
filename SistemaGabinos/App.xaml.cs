@@ -32,20 +32,25 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IInscripcionRepository, InscripcionRepository>();
                 services.AddScoped<IDeudaRepository, DeudaRepository>();
                 services.AddScoped<IPagoRepository, PagoRepository>();
+                services.AddScoped<IPrecioConfiguracionRepository, PrecioConfiguracionRepository>();
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
                 services.AddScoped<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();
                 services.AddScoped<IBuscarAlumnoUseCase, BuscarAlumnoUseCase>();
                 services.AddScoped<IBuscarAlumnosSugerenciasUseCase, BuscarAlumnosSugerenciasUseCase>();
                 services.AddScoped<IObtenerExpedienteAlumnoUseCase, ObtenerExpedienteAlumnoUseCase>();
+                services.AddScoped<IObtenerPreciosConfiguracionUseCase, ObtenerPreciosConfiguracionUseCase>();
+                services.AddScoped<IActualizarPreciosUseCase, ActualizarPreciosUseCase>();
 
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
                 services.AddTransient<ExpedienteAlumnoViewModel>();
+                services.AddTransient<ConfiguracionViewModel>();
 
                 services.AddTransient<NuevaMatricula>();
                 services.AddTransient<ExpedienteAlumno>();
                 services.AddTransient<PanelDeControl>();
+                services.AddTransient<Configuracion>();
             })
             .Build();
 

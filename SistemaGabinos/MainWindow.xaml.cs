@@ -16,6 +16,7 @@ public partial class MainWindow : Window
         DataContext = ViewModel;
 
         ViewModel.NavegarAExpedienteSolicitado += NavegarAExpediente;
+        SearchBox.SearchAccepted += (s, e) => ViewModel.SearchAcceptedCommand.Execute(null);
 
         Loaded += (s, e) => PrimaryContainer.Navigate(
             App.Services.GetRequiredService<PanelDeControl>()
@@ -44,5 +45,6 @@ public partial class MainWindow : Window
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
+        PrimaryContainer.Navigate(App.Services.GetRequiredService<Configuracion>());
     }
 }

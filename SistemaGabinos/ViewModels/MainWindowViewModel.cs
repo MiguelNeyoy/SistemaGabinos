@@ -51,8 +51,11 @@ public partial class MainWindowViewModel : ObservableObject
     {
         if (value is not null)
         {
+            var alumnoId = value.Id;
+            AlumnoSeleccionado = null;
             DropdownAbierto = false;
-            NavegarAExpedienteSolicitado?.Invoke(value.Id);
+            CriterioBusqueda = string.Empty; // Limpia la barra de búsqueda al seleccionar
+            NavegarAExpedienteSolicitado?.Invoke(alumnoId);
         }
     }
 
@@ -61,13 +64,17 @@ public partial class MainWindowViewModel : ObservableObject
     {
         if (AlumnoSeleccionado is not null)
         {
+            var alumnoId = AlumnoSeleccionado.Id;
+            AlumnoSeleccionado = null;
             DropdownAbierto = false;
-            NavegarAExpedienteSolicitado?.Invoke(AlumnoSeleccionado.Id);
+            CriterioBusqueda = string.Empty; // Limpia la barra de búsqueda al presionar Enter
+            NavegarAExpedienteSolicitado?.Invoke(alumnoId);
         }
         else if (ResultadosBusqueda.Count > 0)
         {
-            DropdownAbierto = false;
             var primerResultado = ResultadosBusqueda[0];
+            DropdownAbierto = false;
+            CriterioBusqueda = string.Empty; // Limpia la barra de búsqueda al presionar Enter
             NavegarAExpedienteSolicitado?.Invoke(primerResultado.Id);
         }
     }
