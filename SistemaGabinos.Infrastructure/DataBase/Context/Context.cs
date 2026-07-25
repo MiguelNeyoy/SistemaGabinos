@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SistemaGabinos.Domain.Entities;
+using SistemaGabinos.Domain.Enums;
 
 namespace SistemaGabinos.Infrastructure.DataBase.Context;
 
@@ -11,6 +12,7 @@ public class SistemaGabinosDBContext : DbContext
     public DbSet<Deuda> Deudas => Set<Deuda>();
     public DbSet<Pago> Pagos => Set<Pago>();
     public DbSet<Recibo> Recibos => Set<Recibo>();
+    public DbSet<PrecioConfiguracion> PreciosConfiguraciones => Set<PrecioConfiguracion>();
 
     public SistemaGabinosDBContext(DbContextOptions<SistemaGabinosDBContext> options) : base(options) { }
 
@@ -25,25 +27,29 @@ public class SistemaGabinosDBContext : DbContext
             entity.Property(a => a.Telefono).IsRequired();
             entity.Property(a => a.FechaRegistro).IsRequired();
             entity.Property(a => a.Estado).IsRequired().HasConversion<string>();
+            entity.Property(a => a.TieneBeca).IsRequired();
         });
 
         modelBuilder.Entity<Curso>(entity =>
         {
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.Nombre).IsRequired();
+            entity.Property(c => c.Nivel).IsRequired().HasConversion<string>();
+            entity.Ignore(c => c.Nombre);
             entity.Property(c => c.PrecioLibro).IsRequired().HasColumnType("decimal(18,2)");
             entity.HasData(
-                new Curso(1, "Book 1", 350m),
-                new Curso(2, "Book 2", 350m),
-                new Curso(3, "Book 3", 350m),
-                new Curso(4, "Book 4", 350m),
-                new Curso(5, "Book 5", 350m),
-                new Curso(6, "Book 6", 350m));
+                new Curso(1, NivelCurso.Book1, 350m),
+                new Curso(2, NivelCurso.Book2, 350m),
+                new Curso(3, NivelCurso.Book3, 350m),
+                new Curso(4, NivelCurso.Book4, 350m),
+                new Curso(5, NivelCurso.Book5, 350m),
+                new Curso(6, NivelCurso.Book6, 350m),
+                new Curso(7, NivelCurso.Avanzado, 400m));
         });
 
         modelBuilder.Entity<Inscripcion>(entity =>
         {
             entity.HasKey(i => i.Id);
+            entity.Property(i => i.Horario).IsRequired().HasConversion<string>();
             entity.Property(i => i.FechaInscripcion).IsRequired();
             entity.Property(i => i.Estado).IsRequired().HasConversion<string>();
             entity.HasIndex(i => new { i.AlumnoId, i.CursoId }).IsUnique();
@@ -77,6 +83,16 @@ public class SistemaGabinosDBContext : DbContext
             entity.Property(r => r.Detalle).IsRequired();
             entity.Property(r => r.Monto).IsRequired().HasColumnType("decimal(18,2)");
             entity.Property(r => r.FechaEmision).IsRequired();
+        });
+
+        modelBuilder.Entity<PrecioConfiguracion>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.CostoInscripcion).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(p => p.CostoMensualidad).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(p => p.CostoLibro).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(p => p.CostoExamenUbicacion).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(p => p.MontoDescuentoBeca).IsRequired().HasColumnType("decimal(18,2)");
         });
     }
 }
