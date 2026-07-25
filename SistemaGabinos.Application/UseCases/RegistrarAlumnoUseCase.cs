@@ -14,17 +14,20 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
     private readonly IAlumnoRepository _alumnoRepo;
     private readonly IInscripcionRepository _inscripcionRepo;
     private readonly IDeudaRepository _deudaRepo;
+    private readonly IPrecioConfiguracionRepository _precioConfigRepo;
     private readonly RegistrarAlumnoValidator _validator;
 
     public RegistrarAlumnoUseCase(
         IAlumnoRepository alumnoRepo,
         IInscripcionRepository inscripcionRepo,
         IDeudaRepository deudaRepo,
+        IPrecioConfiguracionRepository precioConfigRepo,
         RegistrarAlumnoValidator validator)
     {
         _alumnoRepo = alumnoRepo;
         _inscripcionRepo = inscripcionRepo;
         _deudaRepo = deudaRepo;
+        _precioConfigRepo = precioConfigRepo;
         _validator = validator;
     }
 
@@ -44,16 +47,21 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
             request.Telefono,
             request.NombreTutor,
             request.ParentescoTutor,
-            request.TelefonoTutor);
+            request.TelefonoTutor,
+            request.TieneBeca);
 
         alumno.ValidarReglasDeNegocio();
 
         _alumnoRepo.Guardar(alumno);
 
-        var inscripcion = new Inscripcion(alumno.Id, request.CursoId);
+        var inscripcion = new Inscripcion(alumno.Id, request.CursoId, request.Horario);
         _inscripcionRepo.Guardar(inscripcion);
 
-        var deuda = new Deuda(alumno.Id, ConceptoDeuda.Inscripcion, request.MontoInicial);
+        var montoInicial = request.MontoInicial > 0 
+            ? request.MontoInicial 
+            : _precioConfigRepo.Obtener().CostoInscripcion;
+
+        var deuda = new Deuda(alumno.Id, ConceptoDeuda.Inscripcion, montoInicial);
         _deudaRepo.Guardar(deuda);
 
         return new RegistrarAlumnoResponse(alumno.Id, "Alumno registrado exitosamente.");

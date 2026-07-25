@@ -9,15 +9,21 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
     private readonly IAlumnoRepository _alumnoRepo;
     private readonly IDeudaRepository _deudaRepo;
     private readonly IPagoRepository _pagoRepo;
+    private readonly IInscripcionRepository _inscripcionRepo;
+    private readonly ICursoRepository _cursoRepo;
 
     public ObtenerExpedienteAlumnoUseCase(
         IAlumnoRepository alumnoRepo,
         IDeudaRepository deudaRepo,
-        IPagoRepository pagoRepo)
+        IPagoRepository pagoRepo,
+        IInscripcionRepository inscripcionRepo,
+        ICursoRepository cursoRepo)
     {
         _alumnoRepo = alumnoRepo;
         _deudaRepo = deudaRepo;
         _pagoRepo = pagoRepo;
+        _inscripcionRepo = inscripcionRepo;
+        _cursoRepo = cursoRepo;
     }
 
     public ExpedienteAlumnoDto? Ejecutar(int alumnoId)
@@ -28,6 +34,19 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
 
         var deudas = _deudaRepo.ObtenerPorAlumno(alumnoId);
         var pagos = _pagoRepo.ObtenerPorAlumno(alumnoId);
+        var inscripciones = _inscripcionRepo.ObtenerPorAlumno(alumnoId);
+        var inscripcionVigente = inscripciones.FirstOrDefault(i => i.Estado == Domain.Enums.EstadoInscripcion.Vigente)
+                                 ?? inscripciones.LastOrDefault();
+
+        string horarioStr = inscripcionVigente?.Horario.ToString() ?? "Mañana";
+        string cursoStr = "Sin Curso";
+
+        if (inscripcionVigente is not null)
+        {
+            var curso = _cursoRepo.ObtenerPorId(inscripcionVigente.CursoId);
+            if (curso is not null)
+                cursoStr = curso.Nombre;
+        }
 
         var pagoItems = new List<PagoItem>();
 
@@ -71,6 +90,8 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
             ParentescoTutor = alumno.ParentescoTutor,
             TelefonoTutor = alumno.TelefonoTutor,
             Estado = alumno.Estado.ToString(),
+            Horario = horarioStr,
+            CursoActual = cursoStr,
             Pagos = pagoItems.OrderByDescending(p => p.Fecha).ToList(),
             TotalPendiente = totalPendiente
         };

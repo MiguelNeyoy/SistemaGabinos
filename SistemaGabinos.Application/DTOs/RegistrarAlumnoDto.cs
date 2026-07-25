@@ -12,7 +12,9 @@ public record RegistrarAlumnoRequest(
     string? TelefonoTutor,
     int CursoId,
     decimal MontoInicial,
-    MetodoPago MetodoPago);
+    MetodoPago MetodoPago,
+    Horario Horario = Horario.Mañana,
+    bool TieneBeca = false);
 
 public record RegistrarAlumnoResponse(
     int AlumnoId,

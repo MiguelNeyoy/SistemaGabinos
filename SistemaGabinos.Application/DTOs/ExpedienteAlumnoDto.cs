@@ -11,6 +11,8 @@ public class ExpedienteAlumnoDto
     public string? ParentescoTutor { get; set; }
     public string? TelefonoTutor { get; set; }
     public string Estado { get; set; } = string.Empty;
+    public string Horario { get; set; } = string.Empty;
+    public string CursoActual { get; set; } = string.Empty;
     public List<PagoItem> Pagos { get; set; } = new();
     public decimal TotalPendiente { get; set; }
 }
