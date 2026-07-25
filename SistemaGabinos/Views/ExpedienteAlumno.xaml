@@ -6,198 +6,144 @@
       FontFamily="{StaticResource FontPoppins}">
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style x:Key="RightAlignedColumn" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,16,0" />
+        </Style>
+        <Style x:Key="CenterAlignedColumn" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
     </Page.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="24">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <TextBlock Text="Expediente del Alumno"
-                       Style="{StaticResource HeadlineLarge}"
-                       Margin="0,0,0,24" />
+        <!-- Page Title -->
+        <TextBlock Grid.Row="0"
+                   Text="Expediente del Alumno"
+                   Style="{StaticResource HeadlineLarge}"
+                   Margin="0,0,0,20" />
 
-            <Border Style="{StaticResource CardStyle}" Padding="24">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+        <!-- Student Profile Header Card (Exact Stitch Match) -->
+        <Border Grid.Row="1" Style="{StaticResource CardStyle}" Padding="24" Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Grid.Column="0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Alumno.NombreCompleto}"
-                                       Style="{StaticResource TitleLarge}"
+                <!-- Avatar with Online/Active Badge -->
+                <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="0,0,20,0" VerticalAlignment="Center">
+                    <Border Width="88" Height="88" CornerRadius="12"
+                            Background="{StaticResource BrushSurfaceAlt}"
+                            BorderBrush="{StaticResource BrushPrimary}"
+                            BorderThickness="2">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE77B;"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       FontSize="44"
+                                       Foreground="{StaticResource BrushTextMuted}"
+                                       HorizontalAlignment="Center"
                                        VerticalAlignment="Center" />
-                            <Border Background="#dcfce7"
-                                    CornerRadius="20"
-                                    Padding="10,4"
-                                    Margin="12,0,0,0"
-                                    VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Alumno.Estado}"
-                                           Foreground="#166534"
-                                           FontSize="11"
-                                           FontWeight="Bold" />
-                            </Border>
-                        </StackPanel>
-                        <TextBlock Style="{StaticResource BodyMedium}"
-                                   Foreground="{StaticResource BrushTextMuted}"
-                                   Margin="0,4,0,0">
-                                Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id}" />
-                        </TextBlock>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="0" Grid.Column="1"
-                                Orientation="Horizontal"
-                                VerticalAlignment="Center">
-                        <Button Content="Pagar"
-                                Style="{StaticResource ButtonPrimary}"
-                                Command="{Binding PagarCommand}"
-                                Padding="20,8"
-                                Margin="0,0,8,0" />
-                        <Button Content="Editar Datos"
-                                Style="{StaticResource ButtonSecondary}"
-                                Command="{Binding EditarCommand}"
-                                Padding="20,8" />
-                    </StackPanel>
-
-                    <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                               Margin="0,16,0,0">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,24,0">
-                            <TextBlock Text="CURP:"
-                                       Style="{StaticResource LabelMedium}"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Alumno.Curp}"
-                                       Style="{StaticResource BodyMedium}"
-                                       Margin="4,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,24,0">
-                            <TextBlock Text="Teléfono:"
-                                       Style="{StaticResource LabelMedium}"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Alumno.Telefono}"
-                                       Style="{StaticResource BodyMedium}"
-                                       Margin="4,0,0,0" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Tutor:"
-                                       Style="{StaticResource LabelMedium}"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Alumno.NombreTutor}"
-                                       Style="{StaticResource BodyMedium}"
-                                       Margin="4,0,0,0" />
-                        </StackPanel>
-                    </WrapPanel>
+                        </Grid>
+                    </Border>
+                    <!-- Active Green Badge -->
+                    <Border Width="18" Height="18" CornerRadius="9"
+                            Background="#22C55E"
+                            BorderBrush="{StaticResource BrushWhite}"
+                            BorderThickness="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,-3,-3" />
                 </Grid>
-            </Border>
 
-            <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
-                <RadioButton x:Name="TabDatosPersonales"
-                             Content="Datos Personales"
-                             IsChecked="{Binding EsDatosPersonales}"
-                             Style="{StaticResource TabStyle}"
-                             GroupName="ExpedienteTabs" />
+                <!-- Line 1: Name + Status Badge -->
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Alumno.NombreCompleto}"
+                               Style="{StaticResource HeadlineLarge}"
+                               FontSize="26"
+                               VerticalAlignment="Center" />
+                    <Border Background="#DCFCE7"
+                            CornerRadius="20"
+                            Padding="12,4"
+                            Margin="14,0,0,0"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Alumno.Estado, FallbackValue='ACTIVO'}"
+                                   Foreground="#166534"
+                                   FontSize="11"
+                                   FontWeight="Bold" />
+                    </Border>
+                </StackPanel>
+
+                <!-- Line 2: Matricula / Level -->
+                <TextBlock Grid.Column="1" Grid.Row="1"
+                           Style="{StaticResource BodyMedium}"
+                           Foreground="{StaticResource BrushTextMuted}"
+                           Margin="0,4,0,0">
+                    Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id, StringFormat='#GA-2023-{0:D4}'}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="Upper Intermediate" />
+                </TextBlock>
+
+                <!-- Line 3: Metadata CURP, Phone, Tutor -->
+                <WrapPanel Grid.Column="1" Grid.Row="2" Margin="0,8,0,0">
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,24,0">
+                        CURP: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.Curp}" />
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,24,0">
+                        Teléfono: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.Telefono}" />
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}">
+                        Tutor: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.NombreTutor}" />
+                    </TextBlock>
+                </WrapPanel>
+
+                <!-- Action Buttons (Right Aligned) -->
+                <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Content="Pagar"
+                            Style="{StaticResource ButtonPrimary}"
+                            Command="{Binding PagarCommand}"
+                            Padding="24,10"
+                            Margin="0,0,10,0" />
+                    <Button Content="Editar Datos"
+                            Style="{StaticResource ButtonSecondary}"
+                            Command="{Binding EditarCommand}"
+                            Padding="24,10" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Tab System Bar (Single Active Tab: Historial Financiero) -->
+        <Border Grid.Row="2"
+                BorderBrush="{StaticResource BrushBorder}"
+                BorderThickness="0,0,0,1"
+                Margin="0,0,0,20">
+            <StackPanel Orientation="Horizontal">
                 <RadioButton x:Name="TabHistorialFinanciero"
                              Content="Historial Financiero"
-                             IsChecked="{Binding EsHistorialFinanciero}"
+                             IsChecked="True"
                              Style="{StaticResource TabStyle}"
                              GroupName="ExpedienteTabs" />
             </StackPanel>
+        </Border>
 
-            <Border Style="{StaticResource CardStyle}"
-                    Padding="24"
-                    Margin="0,0,0,0"
-                    Visibility="{Binding EsDatosPersonales, Converter={StaticResource BoolToVis}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0"
-                               Text="Información de Contacto y Tutor"
-                               Style="{StaticResource HeadlineMedium}"
-                               Margin="0,0,0,24" />
-
-                    <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Row="0" Grid.Column="0">
-                            <TextBlock Text="Nombre Completo"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.NombreCompleto}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="2">
-                            <TextBlock Text="CURP"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.Curp}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="4">
-                            <TextBlock Text="Fecha de Nacimiento"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0">
-                                <Run Text="{Binding Alumno.FechaNacimiento, StringFormat={}{0:dd/MM/yyyy}}" />
-                            </TextBlock>
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,20,0,0">
-                            <TextBlock Text="Teléfono"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.Telefono}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,20,0,0">
-                            <TextBlock Text="Nombre del Tutor"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.NombreTutor}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="4" Margin="0,20,0,0">
-                            <TextBlock Text="Parentesco"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.ParentescoTutor}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,20,0,0">
-                            <TextBlock Text="Teléfono del Tutor"
-                                       Style="{StaticResource LabelMedium}" />
-                            <TextBlock Text="{Binding Alumno.TelefonoTutor}"
-                                       Style="{StaticResource BodyLarge}"
-                                       Margin="0,4,0,0" />
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </Border>
-
+        <!-- Main Content Area: Financial History DataGrid (Full Screen) -->
+        <Grid Grid.Row="3" VerticalAlignment="Stretch">
             <Border Style="{StaticResource CardStyle}"
                     Padding="0"
-                    Margin="0,0,0,0"
-                    Visibility="{Binding EsHistorialFinanciero, Converter={StaticResource BoolToVis}}">
-                <Grid>
+                    VerticalAlignment="Stretch">
+                <Grid VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -205,72 +151,78 @@
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0"
-                            Padding="20,14"
+                            Background="#FFF8F0"
+                            Padding="24,16"
                             BorderBrush="{StaticResource BrushBorder}"
                             BorderThickness="0,0,0,1">
-                        <TextBlock Text="Historial Financiero"
-                                   Style="{StaticResource HeadlineMedium}" />
+                        <TextBlock Text="HISTORIAL FINANCIERO"
+                                   Style="{StaticResource LabelMedium}"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource BrushTextMuted}" />
                     </Border>
 
+                    <!-- Real Dynamic Binding to ViewModel Pagos Collection -->
                     <DataGrid Grid.Row="1"
                               Style="{StaticResource TableStyle}"
                               ItemsSource="{Binding Pagos}"
                               AutoGenerateColumns="False"
-                              Margin="0" SelectionChanged="DataGrid_SelectionChanged">
+                              Margin="0"
+                              VerticalAlignment="Stretch">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Folio"
+                            <DataGridTextColumn Header="FOLIO"
                                                 Binding="{Binding Folio}"
-                                                Width="120" />
-                            <DataGridTextColumn Header="Concepto"
+                                                Width="160" />
+                            <DataGridTextColumn Header="CONCEPTO"
                                                 Binding="{Binding Concepto}"
                                                 Width="*" />
-                            <DataGridTextColumn Header="Monto"
+                            <DataGridTextColumn Header="MONTO"
                                                 Binding="{Binding Monto, StringFormat={}{0:C}}"
-                                                Width="120" />
-                            <DataGridTemplateColumn Header="Estado" Width="110">
+                                                ElementStyle="{StaticResource RightAlignedColumn}"
+                                                Width="160" />
+                            <DataGridTemplateColumn Header="ESTADO" Width="140">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Border CornerRadius="20"
-                                                Padding="8,4"
+                                                Padding="12,4"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center">
                                             <Border.Style>
                                                 <Style TargetType="Border">
-                                                    <Setter Property="Background" Value="#dcfce7" />
+                                                    <Setter Property="Background" Value="#DCFCE7" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Estado}" Value="Pendiente">
-                                                            <Setter Property="Background" Value="#fef3c7" />
+                                                            <Setter Property="Background" Value="#FEF3C7" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </Border.Style>
-                                            <TextBlock FontSize="11"
-                                                       FontWeight="Bold">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="#166534" />
-                                                    <Setter Property="Text" Value="Pagado" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Estado}" Value="Pendiente">
-                                                            <Setter Property="Foreground" Value="#92400e" />
-                                                            <Setter Property="Text" Value="Pendiente" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
+                                            <TextBlock FontSize="11" FontWeight="Bold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="#166534" />
+                                                        <Setter Property="Text" Value="PAGADO" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Estado}" Value="Pendiente">
+                                                                <Setter Property="Foreground" Value="#92400E" />
+                                                                <Setter Property="Text" Value="PENDIENTE" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
                                             </TextBlock>
                                         </Border>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Fecha"
+                            <DataGridTextColumn Header="FECHA"
                                                 Binding="{Binding Fecha, StringFormat={}{0:dd/MM/yyyy}}"
-                                                Width="120" />
+                                                ElementStyle="{StaticResource CenterAlignedColumn}"
+                                                Width="160" />
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <Border Grid.Row="2"
-                            Padding="20,14"
+                            Padding="24,16"
                             BorderBrush="{StaticResource BrushBorder}"
                             BorderThickness="0,1,0,0"
                             Background="{StaticResource BrushSurfaceAlt}">
@@ -285,13 +237,13 @@
                                        VerticalAlignment="Center" />
                             <TextBlock Grid.Column="1"
                                        Text="{Binding TotalPendiente, StringFormat={}{0:C} MXN}"
-                                       Style="{StaticResource TitleLarge}"
-                                       Foreground="{StaticResource BrushSecondary}" />
+                                       Style="{StaticResource HeadlineMedium}"
+                                       Foreground="{StaticResource BrushSecondary}"
+                                       VerticalAlignment="Center" />
                         </Grid>
                     </Border>
                 </Grid>
             </Border>
-
-        </StackPanel>
-    </ScrollViewer>
+        </Grid>
+    </Grid>
 </Page>

@@ -19,8 +19,4 @@ public partial class ExpedienteAlumno : Page
     {
         ViewModel.CargarAlumno(alumnoId);
     }
-
-    private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-    }
 }

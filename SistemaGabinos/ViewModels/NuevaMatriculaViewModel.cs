@@ -40,6 +40,9 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     private int? _alumnoId;
 
     [ObservableProperty]
+    private Horario _horarioSeleccionado = Horario.Mañana;
+
+    [ObservableProperty]
     private Curso? _cursoSeleccionado;
 
     [ObservableProperty]
@@ -74,6 +77,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
 
     public ObservableCollection<Curso> Cursos { get; } = new();
     public ObservableCollection<ConceptoCobroItem> ConceptosCobro { get; } = new();
+    public Horario[] Horarios => Enum.GetValues<Horario>();
 
     public NuevaMatriculaViewModel(IRegistrarAlumnoUseCase useCase, ICursoRepository cursoRepo)
     {
@@ -167,7 +171,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             var request = new RegistrarAlumnoRequest(
                 NombreCompleto, Curp, FechaNacimiento, Telefono,
                 NombreTutor, ParentescoTutor, TelefonoTutor,
-                CursoSeleccionado.Id, Total, metodoPago);
+                CursoSeleccionado.Id, Total, metodoPago, HorarioSeleccionado);
 
             var response = _useCase.Ejecutar(request);
             AlumnoId = response.AlumnoId;
