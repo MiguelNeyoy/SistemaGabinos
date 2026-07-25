@@ -20,6 +20,7 @@ public class Alumno
     public string? TelefonoTutor { get; private set; }
     public DateTime FechaRegistro { get; private set; }
     public EstadoAlumno Estado { get; private set; }
+    public bool TieneBeca { get; private set; }
 
     private Alumno() { }
 
@@ -30,7 +31,8 @@ public class Alumno
         string telefono,
         string? nombreTutor,
         string? parentescoTutor,
-        string? telefonoTutor)
+        string? telefonoTutor,
+        bool tieneBeca = false)
     {
 
         if (string.IsNullOrWhiteSpace(nombreCompleto))
@@ -62,7 +64,11 @@ public class Alumno
         TelefonoTutor = telefonoTutor;
         FechaRegistro = DateTime.UtcNow;
         Estado = EstadoAlumno.Activo;
+        TieneBeca = tieneBeca;
     }
+
+    public void AsignarBeca() => TieneBeca = true;
+    public void QuitarBeca() => TieneBeca = false;
 
     private static readonly Regex CurpRegex = new(
         @"^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]\d$",
