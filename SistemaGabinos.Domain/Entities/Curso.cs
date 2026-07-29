@@ -20,7 +20,6 @@ public class Curso
         NivelCurso.Book4 => "Book 4",
         NivelCurso.Book5 => "Book 5",
         NivelCurso.Book6 => "Book 6",
-        NivelCurso.Avanzado => "Nivel Avanzado",
         _ => Nivel.ToString()
     };
 

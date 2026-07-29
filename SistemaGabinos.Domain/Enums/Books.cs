@@ -9,6 +9,5 @@ public enum NivelCurso
     Book3 = 3,
     Book4 = 4,
     Book5 = 5,
-    Book6 = 6,
-    Avanzado = 7
+    Book6 = 6
 }

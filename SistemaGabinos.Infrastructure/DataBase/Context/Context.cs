@@ -42,8 +42,7 @@ public class SistemaGabinosDBContext : DbContext
                 new Curso(3, NivelCurso.Book3, 350m),
                 new Curso(4, NivelCurso.Book4, 350m),
                 new Curso(5, NivelCurso.Book5, 350m),
-                new Curso(6, NivelCurso.Book6, 350m),
-                new Curso(7, NivelCurso.Avanzado, 400m));
+                new Curso(6, NivelCurso.Book6, 350m));
         });
 
         modelBuilder.Entity<Inscripcion>(entity =>

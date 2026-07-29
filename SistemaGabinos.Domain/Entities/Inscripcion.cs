@@ -50,6 +50,13 @@ public class Inscripcion
         Estado = EstadoInscripcion.Vencida;
     }
 
+    public void CambiarCurso(int nuevoCursoId)
+    {
+        if (nuevoCursoId <= 0)
+            throw new ArgumentException("CursoId debe ser mayor que cero.", nameof(nuevoCursoId));
+        CursoId = nuevoCursoId;
+    }
+
     public void Cancelar()
     {
         Estado = EstadoInscripcion.Cancelada;
