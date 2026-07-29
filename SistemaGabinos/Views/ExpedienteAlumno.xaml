@@ -93,7 +93,7 @@
                            Style="{StaticResource BodyMedium}"
                            Foreground="{StaticResource BrushTextMuted}"
                            Margin="0,4,0,0">
-                    Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id, StringFormat='#GA-2023-{0:D4}'}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="Upper Intermediate" />
+                    Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="Upper Intermediate" />
                 </TextBlock>
 
                 <!-- Line 3: Metadata CURP, Phone, Tutor -->
@@ -163,11 +163,11 @@
 
                     <!-- Real Dynamic Binding to ViewModel Pagos Collection -->
                     <DataGrid Grid.Row="1"
-                              Style="{StaticResource TableStyle}"
-                              ItemsSource="{Binding Pagos}"
-                              AutoGenerateColumns="False"
-                              Margin="0"
-                              VerticalAlignment="Stretch">
+                               Style="{StaticResource TableStyle}"
+                               ItemsSource="{Binding Pagos}"
+                               AutoGenerateColumns="False"
+                               Margin="0"
+                               VerticalAlignment="Stretch">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="FOLIO"
                                                 Binding="{Binding Folio}"

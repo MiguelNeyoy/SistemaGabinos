@@ -61,10 +61,13 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
         }
     }
 
+    public event Action<int, int?>? NavegarACobroSolicitado;
+
     [RelayCommand]
-    private void Pagar()
+    private void Pagar(int? deudaId = null)
     {
-        // Lógica para iniciar proceso de pago
+        if (Alumno is null) return;
+        NavegarACobroSolicitado?.Invoke(Alumno.Id, deudaId);
     }
 
     [RelayCommand]
