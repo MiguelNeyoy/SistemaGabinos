@@ -93,7 +93,7 @@
                            Style="{StaticResource BodyMedium}"
                            Foreground="{StaticResource BrushTextMuted}"
                            Margin="0,4,0,0">
-                    Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="Upper Intermediate" />
+                    Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="{Binding Alumno.CursoActual, FallbackValue='Sin Nivel'}" />
                 </TextBlock>
 
                 <!-- Line 3: Metadata CURP, Phone, Tutor -->
@@ -111,6 +111,11 @@
 
                 <!-- Action Buttons (Right Aligned) -->
                 <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Content="Exportar PDF"
+                            Style="{StaticResource ButtonSecondary}"
+                            Command="{Binding ExportarPdfCommand}"
+                            Padding="18,10"
+                            Margin="0,0,10,0" />
                     <Button Content="Pagar"
                             Style="{StaticResource ButtonPrimary}"
                             Command="{Binding PagarCommand}"

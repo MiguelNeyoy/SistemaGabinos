@@ -332,8 +332,15 @@
                                   MinHeight="180"
                                   MaxHeight="260">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Binding="{Binding Seleccionado, UpdateSourceTrigger=PropertyChanged}"
-                                                        Width="50" />
+                                <DataGridTemplateColumn Width="50" Header="">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Seleccionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="CONCEPTO / DEUDA"
                                                     Binding="{Binding Descripcion}"
                                                     Width="*" />

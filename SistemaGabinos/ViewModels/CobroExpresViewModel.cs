@@ -309,7 +309,7 @@ public partial class CobroExpresViewModel : ObservableObject
         );
 
         _ticketPrinter.ImprimirRecibo(ticketData);
-        Mensaje = "Recibo enviado a la impresora térmica (Vista previa sin guardar en BD).";
+        Mensaje = "Recibo enviado a la impresora.";
         MensajeError = string.Empty;
     }
 
