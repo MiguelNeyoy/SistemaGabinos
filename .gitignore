@@ -11,6 +11,11 @@ obj/
 .vs/
 *.sln.ide/
 
+## Database
+*.db
+*.sqlite
+*.sqlite3
+
 ## JetBrains Rider
 .idea/
 *.sln.iml

@@ -36,6 +36,8 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IPagoRepository, PagoRepository>();
                 services.AddScoped<IReciboRepository, ReciboRepository>();
                 services.AddScoped<IPrecioConfiguracionRepository, PrecioConfiguracionRepository>();
+                services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.IPdfRenderService, SistemaGabinos.Infrastructure.Hardware.PdfRenderService>();
+                services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.IPrinterService, SistemaGabinos.Infrastructure.Hardware.PrinterService>();
                 services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.ITicketPrinter, SistemaGabinos.Infrastructure.Hardware.TicketPrinter>();
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
@@ -47,6 +49,7 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IObtenerExpedienteAlumnoUseCase, ObtenerExpedienteAlumnoUseCase>();
                 services.AddScoped<IObtenerPreciosConfiguracionUseCase, ObtenerPreciosConfiguracionUseCase>();
                 services.AddScoped<IActualizarPreciosUseCase, ActualizarPreciosUseCase>();
+                services.AddScoped<IGenerarMensualidadesAniversarioUseCase, GenerarMensualidadesAniversarioUseCase>();
 
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
@@ -68,6 +71,10 @@ public partial class App : System.Windows.Application
         {
             var db = scope.ServiceProvider.GetRequiredService<SistemaGabinosDBContext>();
             db.Database.Migrate();
+
+            // Startup Check F3: Generación por Aniversario de Inscripción
+            var generarMensualidadesUseCase = scope.ServiceProvider.GetRequiredService<IGenerarMensualidadesAniversarioUseCase>();
+            generarMensualidadesUseCase.Ejecutar();
         }
 
         base.OnStartup(e);

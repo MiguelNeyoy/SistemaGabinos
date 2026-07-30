@@ -24,6 +24,13 @@ public class AlumnoRepository : Repository<Alumno>, IAlumnoRepository
             .ToList();
     }
 
+    public List<Alumno> ObtenerAlumnosEnFechaDeCobro(DateTime fechaCorte)
+    {
+        return DbSet
+            .Where(a => a.Estado == Domain.Enums.EstadoAlumno.Activo && a.ProximaFechaCobro <= fechaCorte)
+            .ToList();
+    }
+
     public List<Alumno> ObtenerTodos()
         => DbSet.ToList();
 

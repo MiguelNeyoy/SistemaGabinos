@@ -9,6 +9,7 @@ public interface IAlumnoRepository : IRepository<Alumno>
 {
     Alumno? ObtenerPorCURP(string curp);
     List<Alumno> BuscarPorNombreOCurp(string criterio, int maxResultados = 10);
+    List<Alumno> ObtenerAlumnosEnFechaDeCobro(DateTime fechaCorte);
     List<Alumno> ObtenerTodos();
     void Eliminar(int id);
 }

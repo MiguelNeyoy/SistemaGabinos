@@ -21,6 +21,7 @@ public class Alumno
     public DateTime FechaRegistro { get; private set; }
     public EstadoAlumno Estado { get; private set; }
     public bool TieneBeca { get; private set; }
+    public DateTime ProximaFechaCobro { get; private set; }
 
     private Alumno() { }
 
@@ -63,12 +64,18 @@ public class Alumno
         ParentescoTutor = parentescoTutor;
         TelefonoTutor = telefonoTutor;
         FechaRegistro = DateTime.UtcNow;
+        ProximaFechaCobro = FechaRegistro.AddMonths(1);
         Estado = EstadoAlumno.Activo;
         TieneBeca = tieneBeca;
     }
 
     public void AsignarBeca() => TieneBeca = true;
     public void QuitarBeca() => TieneBeca = false;
+
+    public void AvanzarProximaFechaCobro()
+    {
+        ProximaFechaCobro = ProximaFechaCobro.AddMonths(1);
+    }
 
     private static readonly Regex CurpRegex = new(
         @"^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]\d$",
