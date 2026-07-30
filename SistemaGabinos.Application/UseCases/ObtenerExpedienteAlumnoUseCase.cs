@@ -1,5 +1,6 @@
 using SistemaGabinos.Application.DTOs;
 using SistemaGabinos.Application.Interfaces;
+using SistemaGabinos.Domain.Enums;
 using SistemaGabinos.Domain.Interfaces;
 
 namespace SistemaGabinos.Application.UseCases;
@@ -54,7 +55,7 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
         {
             pagoItems.Add(new PagoItem
             {
-                Folio = $"#INV-{pago.Id:D4}",
+                Folio = SistemaGabinos.Domain.Enums.TipoFolio.Pago.Formatear(pago.Id),
                 Concepto = pago.Concepto.ToString(),
                 Monto = pago.Monto,
                 Estado = pago.EstaCancelado ? "Cancelado" : "Pagado",
@@ -67,7 +68,7 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
             var saldoPendiente = deuda.MontoTotal - deuda.MontoPagado;
             pagoItems.Add(new PagoItem
             {
-                Folio = $"#DEU-{deuda.Id:D4}",
+                Folio = SistemaGabinos.Domain.Enums.TipoFolio.Deuda.Formatear(deuda.Id),
                 Concepto = $"{deuda.Concepto} (Saldo Pendiente)",
                 Monto = saldoPendiente,
                 Estado = "Pendiente",

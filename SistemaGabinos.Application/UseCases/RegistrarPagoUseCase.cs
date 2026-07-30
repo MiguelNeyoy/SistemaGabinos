@@ -67,6 +67,7 @@ public class RegistrarPagoUseCase : IRegistrarPagoUseCase
         var pagosGeneradosIds = new List<int>();
         var detallesConceptos = new List<string>();
         bool nivelActualizado = false;
+        bool esNivelMaximoAlcanzado = false;
 
         foreach (var deuda in deudasSeleccionadas)
         {
@@ -102,6 +103,11 @@ public class RegistrarPagoUseCase : IRegistrarPagoUseCase
                         _inscripcionRepo.Guardar(inscripcionActiva);
                         nivelActualizado = true;
                     }
+                    else
+                    {
+                        // Nivel máximo alcanzado (Book 6)
+                        esNivelMaximoAlcanzado = true;
+                    }
                 }
             }
 
@@ -110,7 +116,7 @@ public class RegistrarPagoUseCase : IRegistrarPagoUseCase
 
         // Generación y persistencia de Recibo
         int primerPagoId = pagosGeneradosIds.First();
-        string folio = $"REC-{DateTime.UtcNow:yyyyMMdd}-{primerPagoId:D4}";
+        string folio = SistemaGabinos.Domain.Enums.TipoFolio.Recibo.Formatear(primerPagoId, DateTime.UtcNow);
         string detalleCompleto = string.Join(", ", detallesConceptos);
 
         var recibo = new Recibo(primerPagoId, montoAAplicar, folio, detalleCompleto);
@@ -121,9 +127,19 @@ public class RegistrarPagoUseCase : IRegistrarPagoUseCase
             .Where(d => !d.EstaPagada)
             .Sum(d => d.MontoTotal - d.MontoPagado);
 
-        string mensaje = nivelActualizado 
-            ? "Pago registrado exitosamente. Se actualizó el nivel del alumno al liquidar el libro."
-            : "Pago registrado exitosamente.";
+        string mensaje;
+        if (nivelActualizado)
+        {
+            mensaje = "Pago registrado exitosamente. Se actualizó el nivel del alumno al liquidar el libro.";
+        }
+        else if (esNivelMaximoAlcanzado)
+        {
+            mensaje = "Pago registrado exitosamente. El alumno ha completado el nivel máximo del programa.";
+        }
+        else
+        {
+            mensaje = "Pago registrado exitosamente.";
+        }
 
         return new RegistrarPagoResponse(
             pagosGeneradosIds,
