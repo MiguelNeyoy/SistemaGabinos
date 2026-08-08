@@ -48,4 +48,15 @@ public class Deuda
 
         MontoPagado += monto;
     }
+
+    public void RecalcularMonto(decimal nuevoMontoTotal)
+    {
+        if (nuevoMontoTotal <= 0)
+            throw new ArgumentException("El monto total debe ser mayor que cero.", nameof(nuevoMontoTotal));
+
+        if (nuevoMontoTotal < MontoPagado)
+            throw new ArgumentException("El nuevo monto no puede ser menor a lo ya abonado.", nameof(nuevoMontoTotal));
+
+        MontoTotal = nuevoMontoTotal;
+    }
 }

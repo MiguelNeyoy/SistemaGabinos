@@ -16,8 +16,6 @@ public class RegistrarAlumnoValidator : AbstractValidator<RegistrarAlumnoRequest
         RuleFor(x => x.Telefono).NotEmpty().WithMessage("El teléfono es obligatorio.")
             .MinimumLength(10).WithMessage("El teléfono debe tener al menos 10 dígitos.");
         RuleFor(x => x.CursoId).GreaterThan(0).WithMessage("Debe seleccionar un curso.");
-        RuleFor(x => x.MontoInicial).GreaterThanOrEqualTo(0).WithMessage("El monto inicial no puede ser negativo.");
-        RuleFor(x => x.MetodoPago).IsInEnum().WithMessage("Seleccione un método de pago válido.");
         RuleFor(x => x.Horario).IsInEnum().WithMessage("Seleccione un horario válido.");
     }
 }

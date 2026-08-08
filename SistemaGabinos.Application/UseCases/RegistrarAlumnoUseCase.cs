@@ -15,6 +15,7 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
     private readonly IInscripcionRepository _inscripcionRepo;
     private readonly IDeudaRepository _deudaRepo;
     private readonly IPrecioConfiguracionRepository _precioConfigRepo;
+    private readonly ICursoRepository _cursoRepo;
     private readonly RegistrarAlumnoValidator _validator;
 
     public RegistrarAlumnoUseCase(
@@ -22,12 +23,14 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
         IInscripcionRepository inscripcionRepo,
         IDeudaRepository deudaRepo,
         IPrecioConfiguracionRepository precioConfigRepo,
+        ICursoRepository cursoRepo,
         RegistrarAlumnoValidator validator)
     {
         _alumnoRepo = alumnoRepo;
         _inscripcionRepo = inscripcionRepo;
         _deudaRepo = deudaRepo;
         _precioConfigRepo = precioConfigRepo;
+        _cursoRepo = cursoRepo;
         _validator = validator;
     }
 
@@ -51,19 +54,22 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
             request.TieneBeca);
 
         alumno.ValidarReglasDeNegocio();
-
         _alumnoRepo.Guardar(alumno);
 
         var inscripcion = new Inscripcion(alumno.Id, request.CursoId, request.Horario);
         _inscripcionRepo.Guardar(inscripcion);
 
-        var montoInicial = request.MontoInicial > 0 
-            ? request.MontoInicial 
-            : _precioConfigRepo.Obtener().CostoInscripcion;
+        var configuracion = _precioConfigRepo.Obtener();
+        var curso = _cursoRepo.ObtenerPorId(request.CursoId);
 
-        var deuda = new Deuda(alumno.Id, ConceptoDeuda.Inscripcion, montoInicial);
-        _deudaRepo.Guardar(deuda);
+        var deudaInscripcion = new Deuda(alumno.Id, ConceptoDeuda.Inscripcion, configuracion.CostoInscripcion);
+        var deudaLibro = new Deuda(alumno.Id, ConceptoDeuda.Libro, curso?.PrecioLibro ?? configuracion.CostoLibro);
+        var deudaMensualidad = new Deuda(alumno.Id, ConceptoDeuda.Mensualidad, configuracion.CostoMensualidad);
 
-        return new RegistrarAlumnoResponse(alumno.Id, "Alumno registrado exitosamente.");
+        _deudaRepo.Guardar(deudaInscripcion);
+        _deudaRepo.Guardar(deudaLibro);
+        _deudaRepo.Guardar(deudaMensualidad);
+
+        return new RegistrarAlumnoResponse(alumno.Id, "Alumno inscrito correctamente y deudas iniciales generadas.");
     }
 }

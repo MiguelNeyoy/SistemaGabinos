@@ -11,8 +11,6 @@ public record RegistrarAlumnoRequest(
     string? ParentescoTutor,
     string? TelefonoTutor,
     int CursoId,
-    decimal MontoInicial,
-    MetodoPago MetodoPago,
     Horario Horario = Horario.Mañana,
     bool TieneBeca = false);
 

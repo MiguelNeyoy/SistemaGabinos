@@ -91,6 +91,7 @@ public class ObtenerExpedienteAlumnoUseCase : IObtenerExpedienteAlumnoUseCase
             ParentescoTutor = alumno.ParentescoTutor,
             TelefonoTutor = alumno.TelefonoTutor,
             Estado = alumno.Estado.ToString(),
+            TieneBeca = alumno.TieneBeca,
             Horario = horarioStr,
             CursoActual = cursoStr,
             Pagos = pagoItems.OrderByDescending(p => p.Fecha).ToList(),
