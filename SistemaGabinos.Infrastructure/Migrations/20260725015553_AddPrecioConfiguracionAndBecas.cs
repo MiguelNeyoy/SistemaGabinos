@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -87,11 +87,6 @@ namespace SistemaGabinos.Infrastructure.Migrations
                 keyValue: 6,
                 column: "Nivel",
                 value: "Book6");
-
-            migrationBuilder.InsertData(
-                table: "Cursos",
-                columns: new[] { "Id", "Nivel", "PrecioLibro" },
-                values: new object[] { 7, "Avanzado", 400m });
         }
 
         /// <inheritdoc />
@@ -99,11 +94,6 @@ namespace SistemaGabinos.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "PreciosConfiguraciones");
-
-            migrationBuilder.DeleteData(
-                table: "Cursos",
-                keyColumn: "Id",
-                keyValue: 7);
 
             migrationBuilder.DropColumn(
                 name: "Horario",

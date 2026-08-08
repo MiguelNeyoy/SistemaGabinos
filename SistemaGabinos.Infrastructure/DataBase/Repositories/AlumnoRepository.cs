@@ -30,7 +30,7 @@ public class AlumnoRepository : Repository<Alumno>, IAlumnoRepository
             .Where(a => a.Estado == Domain.Enums.EstadoAlumno.Activo && a.ProximaFechaCobro <= fechaCorte)
             .ToList();
     }
-
+    
     public List<Alumno> ObtenerTodos()
         => DbSet.ToList();
 
