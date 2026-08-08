@@ -10,4 +10,13 @@ public partial class NuevaMatricula : Page
         InitializeComponent();
         DataContext = viewModel;
     }
+
+    private void ScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    {
+        if (sender is ScrollViewer scrollViewer)
+        {
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+    }
 }

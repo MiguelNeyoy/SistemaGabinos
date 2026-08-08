@@ -70,19 +70,51 @@
                             Margin="0,0,-3,-3" />
                 </Grid>
 
-                <!-- Line 1: Name + Status Badge -->
+                <!-- Line 1: Name + Status Badge + Beca Badge -->
                 <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Alumno.NombreCompleto}"
                                Style="{StaticResource HeadlineLarge}"
                                FontSize="26"
                                VerticalAlignment="Center" />
-                    <Border Background="#DCFCE7"
-                            CornerRadius="20"
+                    <Border CornerRadius="20"
                             Padding="12,4"
                             Margin="14,0,0,0"
                             VerticalAlignment="Center">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#DCFCE7" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding EsActivo}" Value="False">
+                                        <Setter Property="Background" Value="#FEE2E2" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <TextBlock Text="{Binding Alumno.Estado, FallbackValue='ACTIVO'}"
-                                   Foreground="#166534"
+                                   FontSize="11"
+                                   FontWeight="Bold">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#166534" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EsActivo}" Value="False">
+                                            <Setter Property="Foreground" Value="#991B1B" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Dynamic Beca Badge -->
+                    <Border Background="#FEF3C7"
+                            CornerRadius="20"
+                            Padding="12,4"
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding TieneBeca, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="★ BECA ACTIVA"
+                                   Foreground="#92400E"
                                    FontSize="11"
                                    FontWeight="Bold" />
                     </Border>
@@ -109,22 +141,65 @@
                     </TextBlock>
                 </WrapPanel>
 
-                <!-- Action Buttons (Right Aligned) -->
-                <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Content="Exportar PDF"
-                            Style="{StaticResource ButtonSecondary}"
-                            Command="{Binding ExportarPdfCommand}"
-                            Padding="18,10"
-                            Margin="0,0,10,0" />
-                    <Button Content="Pagar"
-                            Style="{StaticResource ButtonPrimary}"
-                            Command="{Binding PagarCommand}"
-                            Padding="24,10"
-                            Margin="0,0,10,0" />
-                    <Button Content="Editar Datos"
-                            Style="{StaticResource ButtonSecondary}"
-                            Command="{Binding EditarCommand}"
-                            Padding="24,10" />
+                <!-- Action Buttons (Right Aligned in 2 Clean Rows) -->
+                <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="16,0,0,0">
+                    <!-- Row 1: Primary Operations (Pagar, Exportar PDF, Editar) -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
+                        <Button Content="Exportar PDF"
+                                Style="{StaticResource ButtonSecondary}"
+                                Command="{Binding ExportarPdfCommand}"
+                                Padding="16,8"
+                                Margin="0,0,8,0" />
+                        <Button Content="Editar"
+                                Style="{StaticResource ButtonSecondary}"
+                                Command="{Binding EditarCommand}"
+                                Padding="16,8"
+                                Margin="0,0,8,0" />
+                        <Button Content="Pagar"
+                                Style="{StaticResource ButtonPrimary}"
+                                Command="{Binding PagarCommand}"
+                                Padding="22,8" />
+                    </StackPanel>
+
+                    <!-- Row 2: Administrative Actions (Beca, Estado) -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!-- Botón Beca Dinámico -->
+                        <Button Padding="14,6" Margin="0,0,8,0">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ButtonSecondary}">
+                                    <Setter Property="Content" Value="+ Asignar Beca" />
+                                    <Setter Property="Command" Value="{Binding ToggleBecaCommand}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TieneBeca}" Value="True">
+                                            <Setter Property="Content" Value="✕ Quitar Beca" />
+                                            <Setter Property="Background" Value="#FFF1F2" />
+                                            <Setter Property="Foreground" Value="#991B1B" />
+                                            <Setter Property="BorderBrush" Value="#FECDD3" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!-- Botón Estado Dinámico (Dar de Baja / Reactivar) -->
+                        <Button Padding="14,6">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource ButtonSecondary}">
+                                    <Setter Property="Content" Value="Dar de Baja" />
+                                    <Setter Property="Command" Value="{Binding DarDeBajaCommand}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EsActivo}" Value="False">
+                                            <Setter Property="Content" Value="✓ Reactivar Alumno" />
+                                            <Setter Property="Command" Value="{Binding ReactivarCommand}" />
+                                            <Setter Property="Background" Value="#DCFCE7" />
+                                            <Setter Property="Foreground" Value="#166534" />
+                                            <Setter Property="BorderBrush" Value="#86EFAC" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>

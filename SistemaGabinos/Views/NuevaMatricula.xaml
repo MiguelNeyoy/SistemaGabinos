@@ -6,7 +6,7 @@
       Background="{StaticResource BrushSurfaceAlt}"
       FontFamily="{StaticResource FontPoppins}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
         <StackPanel Margin="24">
 
             <TextBlock Text="Nueva Inscripción"
@@ -76,28 +76,16 @@
                     </StackPanel>
                 </controls:CardSection>
 
-                <controls:CardSection Grid.Column="2" Title="Caja / Pago Inicial"
+                <controls:CardSection Grid.Column="2" Title="Resumen de Deudas Iniciales a Generar"
                                       Visibility="{Binding CobroVisible}">
                     <StackPanel>
+                        <TextBlock Text="Estas 3 deudas se registrarán automáticamente en la BD al guardar la matrícula:"
+                                   Style="{StaticResource BodyMedium}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource BrushTextMuted}"
+                                   Margin="0,0,0,12" />
                         <controls:ChecklistBox ItemsSource="{Binding ConceptosCobro}"
                                                 Total="{Binding Total}" />
-                        <Border BorderBrush="{StaticResource BrushBorder}"
-                                BorderThickness="0,1,0,0"
-                                Margin="0,12,0,12" />
-                        <controls:ToggleGroup Label="Método de Pago"
-                                              Option1Text="Efectivo"
-                                              Option1Checked="{Binding EfectivoSeleccionado}"
-                                              Option2Text="Transferencia"
-                                              Option2Checked="{Binding TransferenciaSeleccionado}" />
-                        <Border BorderBrush="{StaticResource BrushBorder}"
-                                BorderThickness="0,1,0,0"
-                                Margin="0,12,0,12" />
-                        <Button Content="Generar Recibo"
-                                Style="{StaticResource ButtonSecondary}"
-                                Command="{Binding GenerarTicketCommand}"
-                                Height="45"
-                                Visibility="{Binding TicketVisible}"
-                                HorizontalAlignment="Left" />
                     </StackPanel>
                 </controls:CardSection>
             </Grid>

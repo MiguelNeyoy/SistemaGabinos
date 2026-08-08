@@ -42,6 +42,7 @@ public partial class App : System.Windows.Application
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
                 services.AddSingleton<RegistrarPagoValidator>();
+                services.AddSingleton<ActualizarAlumnoValidator>();
                 services.AddScoped<IRegistrarAlumnoUseCase, RegistrarAlumnoUseCase>();
                 services.AddScoped<IRegistrarPagoUseCase, RegistrarPagoUseCase>();
                 services.AddScoped<IBuscarAlumnoUseCase, BuscarAlumnoUseCase>();
@@ -50,17 +51,22 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IObtenerPreciosConfiguracionUseCase, ObtenerPreciosConfiguracionUseCase>();
                 services.AddScoped<IActualizarPreciosUseCase, ActualizarPreciosUseCase>();
                 services.AddScoped<IGenerarMensualidadesAniversarioUseCase, GenerarMensualidadesAniversarioUseCase>();
+                services.AddScoped<ICambiarEstadoAlumnoUseCase, CambiarEstadoAlumnoUseCase>();
+                services.AddScoped<IGestionarBecaUseCase, GestionarBecaUseCase>();
+                services.AddScoped<IActualizarAlumnoUseCase, ActualizarAlumnoUseCase>();
 
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
                 services.AddTransient<ExpedienteAlumnoViewModel>();
                 services.AddTransient<CobroExpresViewModel>();
                 services.AddTransient<ConfiguracionViewModel>();
+                services.AddTransient<EditarAlumnoViewModel>();
 
                 services.AddTransient<NuevaMatricula>();
                 services.AddTransient<ExpedienteAlumno>();
                 services.AddTransient<PanelDeControl>();
                 services.AddTransient<Configuracion>();
+                services.AddTransient<EditarAlumnoModal>();
                 services.AddTransient<VentanillaCobro>();
             })
             .Build();

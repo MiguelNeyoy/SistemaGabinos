@@ -148,12 +148,6 @@
             <Border Style="{StaticResource CardStyle}" Padding="24" Margin="0,0,0,24">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <TextBlock Text="&#xE8A5;"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="22"
-                                   Foreground="{StaticResource BrushPrimary}"
-                                   Margin="0,0,10,0"
-                                   VerticalAlignment="Center" />
                         <TextBlock Text="Costos Académicos Base"
                                    Style="{StaticResource HeadlineMedium}"
                                    VerticalAlignment="Center" />
@@ -182,7 +176,7 @@
                                          Text="{Binding CostoMensualidad, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                          Style="{StaticResource InputStyle}"
                                          Padding="12,10" />
-                                <TextBlock Text="Ej. 1400.00">
+                                <TextBlock Text="{Binding CostoMensualidadBD, StringFormat='Ej. {0:N2}'}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
                                             <Style.Triggers>
@@ -206,7 +200,7 @@
                                          Text="{Binding CostoInscripcion, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                          Style="{StaticResource InputStyle}"
                                          Padding="12,10" />
-                                <TextBlock Text="Ej. 500.00">
+                                <TextBlock Text="{Binding CostoInscripcionBD, StringFormat='Ej. {0:N2}'}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
                                             <Style.Triggers>
@@ -230,7 +224,7 @@
                                          Text="{Binding CostoExamenUbicacion, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                          Style="{StaticResource InputStyle}"
                                          Padding="12,10" />
-                                <TextBlock Text="Ej. 250.00">
+                                <TextBlock Text="{Binding CostoExamenUbicacionBD, StringFormat='Ej. {0:N2}'}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
                                             <Style.Triggers>
@@ -254,7 +248,7 @@
                                          Text="{Binding CostoLibro, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                          Style="{StaticResource InputStyle}"
                                          Padding="12,10" />
-                                <TextBlock Text="Ej. 350.00">
+                                <TextBlock Text="{Binding CostoLibroBD, StringFormat='Ej. {0:N2}'}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
                                             <Style.Triggers>
@@ -275,12 +269,6 @@
             <Border Style="{StaticResource CardStyle}" Padding="24" Margin="0,0,0,24">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <TextBlock Text="&#xE1D5;"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="22"
-                                   Foreground="{StaticResource BrushSecondary}"
-                                   Margin="0,0,10,0"
-                                   VerticalAlignment="Center" />
                         <TextBlock Text="Gestión de Becas y Descuentos"
                                    Style="{StaticResource HeadlineMedium}"
                                    VerticalAlignment="Center" />
@@ -303,7 +291,7 @@
                                          Text="{Binding MontoDescuentoBeca, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                          Style="{StaticResource InputStyle}"
                                          Padding="12,10" />
-                                <TextBlock Text="Ej. 400.00">
+                                <TextBlock Text="{Binding MontoDescuentoBecaBD, StringFormat='Ej. {0:N2}'}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
                                             <Style.Triggers>

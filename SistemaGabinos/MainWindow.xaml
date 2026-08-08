@@ -39,7 +39,7 @@
                                  Style="{StaticResource SidebarItem}"
                                  IsChecked="True"
                                  Click="FunctionPanel_Click" />
-                    <RadioButton Content="Nueva Matrícula"
+                    <RadioButton Content="Nueva Inscripcion"
                                  Style="{StaticResource SidebarItem}"
                                  Click="NewEnrollment" />
                     <RadioButton Content="Configuración"

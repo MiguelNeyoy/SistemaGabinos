@@ -82,7 +82,12 @@ public partial class MainWindow : Window
 
     private void NewEnrollment(object sender, RoutedEventArgs e)
     {
-        PrimaryContainer.Navigate(App.Services.GetRequiredService<NuevaMatricula>());
+        var page = App.Services.GetRequiredService<NuevaMatricula>();
+        if (page.DataContext is NuevaMatriculaViewModel vm)
+        {
+            vm.NavegarACobroSolicitado += (alumnoId) => NavegarACobro(alumnoId);
+        }
+        PrimaryContainer.Navigate(page);
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

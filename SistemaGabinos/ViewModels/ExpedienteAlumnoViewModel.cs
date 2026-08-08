@@ -11,6 +11,8 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
 {
     private readonly IObtenerExpedienteAlumnoUseCase _expedienteUseCase;
     private readonly IPdfRenderService _pdfRenderService;
+    private readonly ICambiarEstadoAlumnoUseCase _cambiarEstadoUseCase;
+    private readonly IGestionarBecaUseCase _gestionarBecaUseCase;
 
     [ObservableProperty]
     private ExpedienteAlumnoDto? _alumno;
@@ -24,24 +26,40 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
     [ObservableProperty]
     private bool _esHistorialFinanciero = false;
 
+    [ObservableProperty]
+    private bool _esActivo;
+
+    [ObservableProperty]
+    private bool _tieneBeca;
+
+    [ObservableProperty]
+    private string _mensajeExpediente = string.Empty;
+
     public ObservableCollection<PagoItem> Pagos { get; } = new();
 
     public ExpedienteAlumnoViewModel(
         IObtenerExpedienteAlumnoUseCase expedienteUseCase,
-        IPdfRenderService pdfRenderService)
+        IPdfRenderService pdfRenderService,
+        ICambiarEstadoAlumnoUseCase cambiarEstadoUseCase,
+        IGestionarBecaUseCase gestionarBecaUseCase)
     {
         _expedienteUseCase = expedienteUseCase;
         _pdfRenderService = pdfRenderService;
+        _cambiarEstadoUseCase = cambiarEstadoUseCase;
+        _gestionarBecaUseCase = gestionarBecaUseCase;
     }
 
     public void CargarAlumno(int alumnoId)
     {
+        MensajeExpediente = string.Empty;
         var expediente = _expedienteUseCase.Ejecutar(alumnoId);
         if (expediente is null)
             return;
 
         Alumno = expediente;
         TotalPendiente = expediente.TotalPendiente;
+        EsActivo = expediente.Estado == "Activo";
+        TieneBeca = expediente.TieneBeca;
 
         Pagos.Clear();
         foreach (var pago in expediente.Pagos)
@@ -76,9 +94,65 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void DarDeBaja()
+    {
+        if (Alumno is null) return;
+        try
+        {
+            MensajeExpediente = _cambiarEstadoUseCase.DarDeBaja(Alumno.Id);
+            CargarAlumno(Alumno.Id);
+        }
+        catch (Exception ex)
+        {
+            MensajeExpediente = ex.Message;
+        }
+    }
+
+    [RelayCommand]
+    private void Reactivar()
+    {
+        if (Alumno is null) return;
+        try
+        {
+            MensajeExpediente = _cambiarEstadoUseCase.Reactivar(Alumno.Id);
+            CargarAlumno(Alumno.Id);
+        }
+        catch (Exception ex)
+        {
+            MensajeExpediente = ex.Message;
+        }
+    }
+
+    [RelayCommand]
+    private void ToggleBeca()
+    {
+        if (Alumno is null) return;
+        try
+        {
+            MensajeExpediente = Alumno.TieneBeca
+                ? _gestionarBecaUseCase.QuitarBeca(Alumno.Id)
+                : _gestionarBecaUseCase.AsignarBeca(Alumno.Id);
+            CargarAlumno(Alumno.Id);
+        }
+        catch (Exception ex)
+        {
+            MensajeExpediente = ex.Message;
+        }
+    }
+
+    [RelayCommand]
     private void Editar()
     {
-        // Lógica para abrir edición de datos del alumno
+        if (Alumno is null) return;
+
+        var modal = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<Views.EditarAlumnoModal>(App.Services);
+        modal.Owner = System.Windows.Application.Current.MainWindow;
+        modal.ViewModel.CargarAlumno(Alumno);
+
+        if (modal.ShowDialog() == true)
+        {
+            CargarAlumno(Alumno.Id);
+        }
     }
 
     [RelayCommand]

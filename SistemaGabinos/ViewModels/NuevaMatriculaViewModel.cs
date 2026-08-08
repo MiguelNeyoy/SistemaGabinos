@@ -14,6 +14,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
 {
     private readonly IRegistrarAlumnoUseCase _useCase;
     private readonly ICursoRepository _cursoRepo;
+    private readonly IObtenerPreciosConfiguracionUseCase _obtenerPreciosUseCase;
 
     [ObservableProperty]
     private string _nombreCompleto = string.Empty;
@@ -69,20 +70,18 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     [ObservableProperty]
     private decimal _total;
 
-    [ObservableProperty]
-    private bool _efectivoSeleccionado = true;
-
-    [ObservableProperty]
-    private bool _transferenciaSeleccionado;
-
     public ObservableCollection<Curso> Cursos { get; } = new();
     public ObservableCollection<ConceptoCobroItem> ConceptosCobro { get; } = new();
     public Horario[] Horarios => Enum.GetValues<Horario>();
 
-    public NuevaMatriculaViewModel(IRegistrarAlumnoUseCase useCase, ICursoRepository cursoRepo)
+    public NuevaMatriculaViewModel(
+        IRegistrarAlumnoUseCase useCase,
+        ICursoRepository cursoRepo,
+        IObtenerPreciosConfiguracionUseCase obtenerPreciosUseCase)
     {
         _useCase = useCase;
         _cursoRepo = cursoRepo;
+        _obtenerPreciosUseCase = obtenerPreciosUseCase;
         CargarCursos();
     }
 
@@ -105,42 +104,38 @@ public partial class NuevaMatriculaViewModel : ObservableObject
         if (value is null)
         {
             CobroVisible = System.Windows.Visibility.Collapsed;
-            TicketVisible = System.Windows.Visibility.Collapsed;
             return;
         }
 
         CobroVisible = System.Windows.Visibility.Visible;
-        TicketVisible = System.Windows.Visibility.Visible;
         CargarConceptosCobro(value);
     }
 
     private void CargarConceptosCobro(Curso curso)
     {
         ConceptosCobro.Clear();
+        var config = _obtenerPreciosUseCase.Ejecutar();
 
         ConceptosCobro.Add(new ConceptoCobroItem
         {
-            Descripcion = "Inscripción",
-            Monto = 0,
+            Descripcion = "Inscripción Estándar",
+            Monto = config?.CostoInscripcion ?? 500m,
             Seleccionado = true
         });
 
         ConceptosCobro.Add(new ConceptoCobroItem
         {
             Descripcion = $"Libro {curso.Nombre}",
-            Monto = curso.PrecioLibro,
+            Monto = curso.PrecioLibro > 0 ? curso.PrecioLibro : (config?.CostoLibro ?? 350m),
             Seleccionado = true
         });
 
         ConceptosCobro.Add(new ConceptoCobroItem
         {
-            Descripcion = "Mensualidad",
-            Monto = 0,
+            Descripcion = "Primera Mensualidad Base",
+            Monto = config?.CostoMensualidad ?? 1400m,
             Seleccionado = true
         });
-
-        foreach (var item in ConceptosCobro)
-            item.PropertyChanged += (_, _) => RecalcularTotal();
 
         RecalcularTotal();
     }
@@ -149,9 +144,10 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     {
         Total = 0;
         foreach (var item in ConceptosCobro)
-            if (item.Seleccionado)
-                Total += item.Monto;
+            Total += item.Monto;
     }
+
+    public event Action<int>? NavegarACobroSolicitado;
 
     [RelayCommand]
     private void Registrar()
@@ -166,18 +162,18 @@ public partial class NuevaMatriculaViewModel : ObservableObject
 
         try
         {
-            var metodoPago = EfectivoSeleccionado ? MetodoPago.Efectivo : MetodoPago.Transferencia;
-
             var request = new RegistrarAlumnoRequest(
                 NombreCompleto, Curp, FechaNacimiento, Telefono,
                 NombreTutor, ParentescoTutor, TelefonoTutor,
-                CursoSeleccionado.Id, Total, metodoPago, HorarioSeleccionado);
+                CursoSeleccionado.Id, HorarioSeleccionado);
 
             var response = _useCase.Ejecutar(request);
             AlumnoId = response.AlumnoId;
             Mensaje = response.Mensaje;
             MensajeExitoVisible = System.Windows.Visibility.Visible;
             MensajeErrorVisible = System.Windows.Visibility.Collapsed;
+
+            NavegarACobroSolicitado?.Invoke(response.AlumnoId);
         }
         catch (FluentValidation.ValidationException vex)
         {
@@ -191,10 +187,5 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             MensajeErrorVisible = System.Windows.Visibility.Visible;
             MensajeExitoVisible = System.Windows.Visibility.Collapsed;
         }
-    }
-
-    [RelayCommand]
-    private void GenerarTicket()
-    {
     }
 }
