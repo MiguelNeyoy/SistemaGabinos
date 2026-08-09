@@ -90,6 +90,19 @@ public partial class MainWindow : Window
         PrimaryContainer.Navigate(page);
     }
 
+    private void ReportesFinanzas_Click(object sender, RoutedEventArgs e)
+    {
+        var page = App.Services.GetRequiredService<ReportesFinanzas>();
+        if (page.DataContext is ReportesFinanzasViewModel vm)
+        {
+            vm.GenerarReporteCommand.Execute(null); // Refresca los datos en tiempo real desde SQLite
+            // Subscribe to event exactly once to avoid memory leaks if clicked multiple times
+            vm.SolicitaIrAExpediente -= NavegarAExpediente; 
+            vm.SolicitaIrAExpediente += NavegarAExpediente;
+        }
+        PrimaryContainer.Navigate(page);
+    }
+
     private void Button_Click(object sender, RoutedEventArgs e)
     {
         PrimaryContainer.Navigate(App.Services.GetRequiredService<Configuracion>());

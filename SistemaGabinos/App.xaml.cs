@@ -54,6 +54,7 @@ public partial class App : System.Windows.Application
                 services.AddScoped<ICambiarEstadoAlumnoUseCase, CambiarEstadoAlumnoUseCase>();
                 services.AddScoped<IGestionarBecaUseCase, GestionarBecaUseCase>();
                 services.AddScoped<IActualizarAlumnoUseCase, ActualizarAlumnoUseCase>();
+                services.AddScoped<IObtenerReporteFinancieroUseCase, ObtenerReporteFinancieroUseCase>();
 
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
@@ -61,6 +62,7 @@ public partial class App : System.Windows.Application
                 services.AddTransient<CobroExpresViewModel>();
                 services.AddTransient<ConfiguracionViewModel>();
                 services.AddTransient<EditarAlumnoViewModel>();
+                services.AddTransient<ReportesFinanzasViewModel>();
 
                 services.AddTransient<NuevaMatricula>();
                 services.AddTransient<ExpedienteAlumno>();
@@ -68,6 +70,7 @@ public partial class App : System.Windows.Application
                 services.AddTransient<Configuracion>();
                 services.AddTransient<EditarAlumnoModal>();
                 services.AddTransient<VentanillaCobro>();
+                services.AddTransient<ReportesFinanzas>();
             })
             .Build();
 

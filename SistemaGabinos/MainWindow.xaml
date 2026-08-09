@@ -42,6 +42,9 @@
                     <RadioButton Content="Nueva Inscripcion"
                                  Style="{StaticResource SidebarItem}"
                                  Click="NewEnrollment" />
+                    <RadioButton Content="Reportes y Finanzas"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="ReportesFinanzas_Click" />
                     <RadioButton Content="Configuración"
                                  Style="{StaticResource SidebarItem}"
                                  Click="Button_Click" />
