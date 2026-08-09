@@ -8,4 +8,5 @@ namespace SistemaGabinos.Domain.Interfaces;
 public interface IDeudaRepository : IRepository<Deuda>
 {
     List<Deuda> ObtenerPorAlumno(int alumnoId);
+    List<Deuda> ObtenerDeudasPendientesGlobales();
 }

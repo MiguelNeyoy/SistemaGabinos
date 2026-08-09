@@ -14,4 +14,9 @@ public class PagoRepository : Repository<Pago>, IPagoRepository
 
     public List<Pago> ObtenerPorDeuda(int deudaId)
         => DbSet.Where(p => p.DeudaId == deudaId).ToList();
+
+    public List<Pago> ObtenerPorRangoFechas(DateTime inicio, DateTime fin)
+        => DbSet.Where(p => !p.EstaCancelado && p.Fecha >= inicio && p.Fecha <= fin)
+                .OrderByDescending(p => p.Fecha)
+                .ToList();
 }

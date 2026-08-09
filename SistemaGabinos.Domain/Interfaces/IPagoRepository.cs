@@ -10,4 +10,5 @@ public interface IPagoRepository : IRepository<Pago>
 {
     List<Pago> ObtenerPorAlumno(int alumnoId);
     List<Pago> ObtenerPorDeuda(int deudaId);
+    List<Pago> ObtenerPorRangoFechas(DateTime inicio, DateTime fin);
 }
