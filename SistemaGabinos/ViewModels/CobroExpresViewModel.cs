@@ -20,6 +20,7 @@ public partial class CobroExpresViewModel : ObservableObject
     private readonly IDeudaRepository _deudaRepo;
     private readonly IRegistrarPagoUseCase _registrarPagoUseCase;
     private readonly ITicketPrinter _ticketPrinter;
+    private readonly IPdfRenderService _pdfRenderService;
     private readonly IBuscarAlumnosSugerenciasUseCase _buscarAlumnosUseCase;
     private readonly ICursoRepository _cursoRepo;
     private readonly IObtenerPreciosConfiguracionUseCase _obtenerPreciosUseCase;
@@ -88,6 +89,7 @@ public partial class CobroExpresViewModel : ObservableObject
         IDeudaRepository deudaRepo,
         IRegistrarPagoUseCase registrarPagoUseCase,
         ITicketPrinter ticketPrinter,
+        IPdfRenderService pdfRenderService,
         IBuscarAlumnosSugerenciasUseCase buscarAlumnosUseCase,
         ICursoRepository cursoRepo,
         IObtenerPreciosConfiguracionUseCase obtenerPreciosUseCase)
@@ -96,6 +98,7 @@ public partial class CobroExpresViewModel : ObservableObject
         _deudaRepo = deudaRepo;
         _registrarPagoUseCase = registrarPagoUseCase;
         _ticketPrinter = ticketPrinter;
+        _pdfRenderService = pdfRenderService;
         _buscarAlumnosUseCase = buscarAlumnosUseCase;
         _cursoRepo = cursoRepo;
         _obtenerPreciosUseCase = obtenerPreciosUseCase;
@@ -308,9 +311,35 @@ public partial class CobroExpresViewModel : ObservableObject
             DateTime.Now
         );
 
-        _ticketPrinter.ImprimirRecibo(ticketData);
-        Mensaje = "Recibo enviado a la impresora.";
-        MensajeError = string.Empty;
+        var result = _ticketPrinter.ImprimirRecibo(ticketData);
+
+        if (result.Exito)
+        {
+            Mensaje = "Recibo enviado a la impresora.";
+            MensajeError = string.Empty;
+        }
+        else
+        {
+            MensajeError = result.Mensaje;
+            OfrecerGuardarPdf(ticketData);
+        }
+    }
+
+    private void OfrecerGuardarPdf(TicketData ticketData)
+    {
+        byte[] pdfBytes = _pdfRenderService.RenderizarReciboPdf(ticketData);
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            FileName = $"Recibo_{NombreCompleto.Replace(" ", "_")}_{DateTime.Now:yyyyMMdd_HHmm}.pdf",
+            DefaultExt = ".pdf",
+            Filter = "Archivos PDF (.pdf)|*.pdf"
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            System.IO.File.WriteAllBytes(dialog.FileName, pdfBytes);
+            Mensaje = $"Recibo guardado como PDF en: {System.IO.Path.GetFileName(dialog.FileName)}";
+        }
     }
 
     [RelayCommand]

@@ -58,11 +58,12 @@
             
             <!-- Tab: Corte de Caja -->
             <TabItem Header="Corte de Caja" FontSize="16" FontWeight="SemiBold" Padding="12,8">
-                <Grid Margin="0,16,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
                     <!-- Resumen Corte Caja -->
                     <Grid Grid.Row="0" Margin="0,0,0,20">
@@ -145,7 +146,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             
                             <!-- Cabecera de la lista -->
@@ -165,7 +166,8 @@
                                       AutoGenerateColumns="False" IsReadOnly="True" 
                                       HeadersVisibility="Column" SelectionMode="Single"
                                       BorderThickness="0" Background="Transparent"
-                                      RowHeight="45">
+                                      RowHeight="45"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Folio" Binding="{Binding Folio}" Width="90" />
                                     <DataGridTextColumn Header="Fecha y Hora" Binding="{Binding Fecha, StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" Width="160" />
@@ -183,16 +185,18 @@
                             </DataGrid>
                         </Grid>
                     </Border>
-                </Grid>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
             <!-- Tab: Cartera Vencida -->
             <TabItem Header="Cartera Vencida (Deudores)" FontSize="16" FontWeight="SemiBold" Padding="12,8">
-                <Grid Margin="0,16,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
                     <!-- Resumen Deudores -->
                     <Grid Grid.Row="0" Margin="0,0,0,20">
@@ -230,7 +234,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             
                             <Border Grid.Row="0" Padding="20,16" Background="#FAFAFA">
@@ -246,6 +250,7 @@
                                       HeadersVisibility="Column" SelectionMode="Single"
                                       BorderThickness="0" Background="Transparent"
                                       RowHeight="45"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                       MouseDoubleClick="DeudoresGrid_MouseDoubleClick">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Alumno" Binding="{Binding NombreAlumno}" Width="2*" />
@@ -263,7 +268,8 @@
                             </DataGrid>
                         </Grid>
                     </Border>
-                </Grid>
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
             
         </TabControl>
