@@ -23,5 +23,5 @@ public record TicketData(
 
 public interface ITicketPrinter
 {
-    void ImprimirRecibo(TicketData ticket);
+    SistemaGabinos.Infrastructure.Hardware.PrintResult ImprimirRecibo(TicketData ticket);
 }

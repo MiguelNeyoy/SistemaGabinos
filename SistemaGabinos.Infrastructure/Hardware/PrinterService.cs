@@ -1,6 +1,7 @@
 // PrinterService.cs
 // Implementación de la Capa de Hardware y Dispositivos.
 // Envía bytes binarios al spooler de impresión de Windows y maneja excepciones físicas de hardware.
+// Incluye filtro de impresoras virtuales de Windows (Microsoft Print to PDF, XPS, Fax, OneNote, etc.).
 using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Text;
@@ -9,6 +10,16 @@ namespace SistemaGabinos.Infrastructure.Hardware;
 
 public class PrinterService : IPrinterService
 {
+    private static readonly string[] ImpresorasVirtualesOmisión = new[]
+    {
+        "microsoft print to pdf",
+        "microsoft xps document writer",
+        "fax",
+        "onenote",
+        "send to onenote",
+        "root print queue"
+    };
+
     public PrintResult ImprimirBytes(byte[] documentoBytes, string? nombreImpresora = null)
     {
         if (documentoBytes == null || documentoBytes.Length == 0)
@@ -18,15 +29,31 @@ public class PrinterService : IPrinterService
 
         try
         {
-            string textoContenido = Encoding.UTF8.GetString(documentoBytes);
-
-            // Simulación / Envió al Spooler de Windows
             var printDoc = new PrintDocument();
-            if (!string.IsNullOrWhiteSpace(nombreImpresora))
+            
+            // Si se especifica un nombre, usarlo; de lo contrario, usar la predeterminada de Windows.
+            string printerTarget = !string.IsNullOrWhiteSpace(nombreImpresora) 
+                ? nombreImpresora 
+                : printDoc.PrinterSettings.PrinterName;
+
+            // Validar que exista la impresora destino
+            if (string.IsNullOrWhiteSpace(printerTarget) || !printDoc.PrinterSettings.IsValid)
             {
-                printDoc.PrinterSettings.PrinterName = nombreImpresora;
+                return new PrintResult(false, 
+                    "No se encontró una impresora física válida o predeterminada en el sistema.", 
+                    true);
             }
 
+            // Filtrar si la impresora seleccionada es virtual / genérica de Windows
+            string printerLower = printerTarget.ToLowerInvariant().Trim();
+            if (ImpresorasVirtualesOmisión.Any(v => printerLower.Contains(v)))
+            {
+                return new PrintResult(false, 
+                    $"La impresora seleccionada ('{printerTarget}') es una impresora virtual de software y no un dispositivo físico de impresión.", 
+                    true);
+            }
+
+            string textoContenido = Encoding.UTF8.GetString(documentoBytes);
             int lineIndex = 0;
             string[] lineas = textoContenido.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
@@ -51,28 +78,24 @@ public class PrinterService : IPrinterService
                 e.HasMorePages = (lineIndex < lineas.Length);
             };
 
-            // Intentar enviar a la cola de impresión de Windows
-            if (PrinterSettings.InstalledPrinters.Count > 0)
-            {
-                printDoc.Print();
-            }
+            printDoc.PrinterSettings.PrinterName = printerTarget;
+            printDoc.Print();
 
-            Debug.WriteLine("=== DOCUMENTO IMPRESO VÍA PRINT SERVICE ===");
-            Debug.WriteLine(textoContenido);
+            Debug.WriteLine($"=== DOCUMENTO ENVIADO A IMPRESORA FÍSICA: {printerTarget} ===");
 
-            return new PrintResult(true, "Documento enviado exitosamente a la cola de impresión.", false);
+            return new PrintResult(true, $"Documento enviado exitosamente a la impresora '{printerTarget}'.", false);
         }
         catch (InvalidPrinterException)
         {
             return new PrintResult(false, 
-                "El pago fue registrado correctamente, pero no se pudo conectar con la impresora. Puede reimprimir el recibo desde el Historial.", 
+                "No se pudo conectar con la impresora especificada. Verifique que esté encendida y conectada.", 
                 true);
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error de Hardware de Impresión: {ex.Message}");
             return new PrintResult(false, 
-                "El pago fue registrado correctamente, pero ocurrió un aviso de impresora. Puede reimprimir el recibo desde el Historial.", 
+                $"Aviso de impresora: {ex.Message}", 
                 true);
         }
     }

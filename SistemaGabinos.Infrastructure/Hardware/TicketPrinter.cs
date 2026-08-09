@@ -1,6 +1,7 @@
 // TicketPrinter.cs
 // Orquestador del servicio de impresión desacoplado (Clean Architecture / SRP).
 // Renderiza el documento binario con IPdfRenderService y lo envía al hardware con IPrinterService.
+// Retorna PrintResult para que el caller pueda reaccionar a fallos de impresora.
 namespace SistemaGabinos.Infrastructure.Hardware;
 
 public class TicketPrinter : ITicketPrinter
@@ -14,17 +15,9 @@ public class TicketPrinter : ITicketPrinter
         _printerService = printerService;
     }
 
-    public void ImprimirRecibo(TicketData ticket)
+    public SistemaGabinos.Infrastructure.Hardware.PrintResult ImprimirRecibo(TicketData ticket)
     {
-        // 1. Capa de Renderizado de Documentos (DTO -> byte[])
         byte[] pdfBytes = _pdfRenderService.RenderizarReciboPdf(ticket);
-
-        // 2. Capa de Hardware (byte[] -> Spooler Windows con captura de PrinterException)
-        var result = _printerService.ImprimirBytes(pdfBytes);
-
-        if (!result.Exito)
-        {
-            System.Diagnostics.Debug.WriteLine($"Aviso de Impresión: {result.Mensaje}");
-        }
+        return _printerService.ImprimirBytes(pdfBytes);
     }
 }
