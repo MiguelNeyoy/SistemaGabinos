@@ -1,8 +1,11 @@
 using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SistemaGabinos.Application.DTOs;
 using SistemaGabinos.Application.Interfaces;
+using SistemaGabinos.Infrastructure.Updates;
+using Velopack;
 
 namespace SistemaGabinos.ViewModels;
 
@@ -10,6 +13,9 @@ public partial class ConfiguracionViewModel : ObservableObject
 {
     private readonly IObtenerPreciosConfiguracionUseCase _obtenerPreciosUseCase;
     private readonly IActualizarPreciosUseCase _actualizarPreciosUseCase;
+    private readonly IUpdateService _updateService;
+
+    private UpdateInfo? _updateInfoPendiente;
 
     // Valores guardados actualmente en la Base de Datos (placeholders)
     [ObservableProperty]
@@ -27,7 +33,7 @@ public partial class ConfiguracionViewModel : ObservableObject
     [ObservableProperty]
     private decimal _montoDescuentoBecaBD = 400;
 
-    // Entradas editables del usuario (nacen en null para estar vacías)
+    // Entradas editables del usuario
     [ObservableProperty]
     private decimal? _costoInscripcion;
 
@@ -52,6 +58,25 @@ public partial class ConfiguracionViewModel : ObservableObject
     [ObservableProperty]
     private bool _esCargando;
 
+    // --- PROPIEDADES DE VELOPACK UPDATES ---
+    [ObservableProperty]
+    private string _versionActual = "1.0.0";
+
+    [ObservableProperty]
+    private bool _hayNuevaVersion;
+
+    [ObservableProperty]
+    private string? _nuevaVersionNombre;
+
+    [ObservableProperty]
+    private int _progresoDescarga;
+
+    [ObservableProperty]
+    private bool _esDescargandoUpdate;
+
+    [ObservableProperty]
+    private string? _mensajeUpdate;
+
     public decimal MensualidadSinBeca => CostoMensualidad ?? CostoMensualidadBD;
 
     public decimal MensualidadConBeca
@@ -66,10 +91,14 @@ public partial class ConfiguracionViewModel : ObservableObject
 
     public ConfiguracionViewModel(
         IObtenerPreciosConfiguracionUseCase obtenerPreciosUseCase,
-        IActualizarPreciosUseCase actualizarPreciosUseCase)
+        IActualizarPreciosUseCase actualizarPreciosUseCase,
+        IUpdateService updateService)
     {
         _obtenerPreciosUseCase = obtenerPreciosUseCase;
         _actualizarPreciosUseCase = actualizarPreciosUseCase;
+        _updateService = updateService;
+
+        VersionActual = _updateService.ObtenerVersionActual();
     }
 
     public void CargarPrecios()
@@ -78,6 +107,8 @@ public partial class ConfiguracionViewModel : ObservableObject
         {
             EsCargando = true;
             LimpiarNotificaciones();
+
+            VersionActual = _updateService.ObtenerVersionActual();
 
             var dto = _obtenerPreciosUseCase.Ejecutar();
             if (dto is not null)
@@ -104,6 +135,71 @@ public partial class ConfiguracionViewModel : ObservableObject
         finally
         {
             EsCargando = false;
+        }
+    }
+
+    // --- COMANDOS DE VELOPACK ACTUALIZACIÓN ---
+    [RelayCommand]
+    private async Task BuscarActualizacionesAsync()
+    {
+        MensajeUpdate = "Consultando GitHub Releases...";
+        HayNuevaVersion = false;
+        _updateInfoPendiente = null;
+
+        var result = await _updateService.ComprobarActualizacionAsync();
+
+        if (result.ErrorMensaje != null)
+        {
+            MensajeUpdate = $"No se pudo consultar actualizaciones: {result.ErrorMensaje}";
+            return;
+        }
+
+        if (result.HayActualizacion && result.UpdateInfo != null)
+        {
+            _updateInfoPendiente = result.UpdateInfo;
+            NuevaVersionNombre = result.NuevaVersion;
+            HayNuevaVersion = true;
+            MensajeUpdate = $"¡Nueva versión v{result.NuevaVersion} disponible!";
+        }
+        else
+        {
+            MensajeUpdate = "El sistema está actualizado a la versión más reciente.";
+        }
+    }
+
+    [RelayCommand]
+    private async Task AplicarActualizacionAsync()
+    {
+        if (_updateInfoPendiente == null) return;
+
+        try
+        {
+            EsDescargandoUpdate = true;
+            ProgresoDescarga = 0;
+            MensajeUpdate = "Descargando actualización en segundo plano...";
+
+            bool descargado = await _updateService.DescargarActualizacionAsync(
+                _updateInfoPendiente, 
+                progreso => ProgresoDescarga = progreso);
+
+            if (descargado)
+            {
+                MensajeUpdate = "Descarga completa. Reiniciando aplicación...";
+                await Task.Delay(1000);
+                _updateService.AplicarActualizacionYReiniciar(_updateInfoPendiente);
+            }
+            else
+            {
+                MensajeUpdate = "Ocurrió un error al descargar los paquetes de actualización.";
+            }
+        }
+        catch (Exception ex)
+        {
+            MensajeUpdate = $"Error durante la actualización: {ex.Message}";
+        }
+        finally
+        {
+            EsDescargandoUpdate = false;
         }
     }
 

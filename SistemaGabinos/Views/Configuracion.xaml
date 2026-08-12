@@ -370,6 +370,133 @@
                 </StackPanel>
             </Border>
 
+            <!-- Section 3: Actualizaciones del Sistema (Velopack) -->
+            <Border Style="{StaticResource CardStyle}" Padding="24" Margin="0,0,0,24">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                        <TextBlock Text="Actualizaciones del Sistema"
+                                   Style="{StaticResource HeadlineMedium}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <TextBlock Text="Versión Actual Instalada: "
+                                           Style="{StaticResource BodyMedium}"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding VersionActual, StringFormat='v{0}'}"
+                                           Style="{StaticResource BodyMedium}"
+                                           Foreground="{StaticResource BrushPrimary}"
+                                           FontWeight="Bold" />
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding MensajeUpdate}" Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource BodyMedium}">
+                                        <Setter Property="Foreground" Value="{StaticResource BrushTextMuted}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HayNuevaVersion}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource BrushPrimary}" />
+                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <!-- Barra de Progreso de Descarga -->
+                            <StackPanel Margin="0,12,0,0">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding EsDescargandoUpdate}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <Grid>
+                                    <ProgressBar Value="{Binding ProgresoDescarga}"
+                                                 Minimum="0" Maximum="100" Height="8" />
+                                    <TextBlock Text="{Binding ProgresoDescarga, StringFormat='{}{0}%'}" 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" 
+                                               FontSize="10" 
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               Margin="0,0,0,0" />
+                                </Grid>
+                                <TextBlock Text="Descargando nueva versión, por favor espera..." 
+                                           FontSize="11" 
+                                           Foreground="{StaticResource BrushTextMuted}" 
+                                           Margin="0,4,0,0" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Botones de Acción de Actualización -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Command="{Binding BuscarActualizacionesAsyncCommand}"
+                                    Padding="16,10"
+                                    Margin="0,0,10,0">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ButtonSecondary}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding EsDescargandoUpdate}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72C;"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="16"
+                                               Margin="0,0,8,0"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="Buscar Actualizaciones"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button Command="{Binding AplicarActualizacionAsyncCommand}"
+                                    Padding="16,10">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource ButtonPrimary}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HayNuevaVersion}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding EsDescargandoUpdate}" Value="True">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE896;"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="16"
+                                               Margin="0,0,8,0"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="Descargar y Aplicar"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
             <!-- Bottom Action Footer -->
             <Border Background="{StaticResource BrushSurface}"
                     BorderBrush="{StaticResource BrushBorder}"

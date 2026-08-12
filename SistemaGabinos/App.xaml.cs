@@ -40,6 +40,7 @@ public partial class App : System.Windows.Application
                 services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.IPrinterService, SistemaGabinos.Infrastructure.Hardware.PrinterService>();
                 services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.ITicketPrinter, SistemaGabinos.Infrastructure.Hardware.TicketPrinter>();
                 services.AddSingleton<SistemaGabinos.Infrastructure.Hardware.IExcelExportService, SistemaGabinos.Infrastructure.Hardware.ExcelExportService>();
+                services.AddSingleton<SistemaGabinos.Infrastructure.Updates.IUpdateService, SistemaGabinos.Infrastructure.Updates.UpdateService>();
 
                 services.AddSingleton<RegistrarAlumnoValidator>();
                 services.AddSingleton<RegistrarPagoValidator>();

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\SistemaGabinos.Application\SistemaGabinos.Application.csproj" />
@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
+    <PackageReference Include="Velopack" Version="1.2.0" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -24,6 +25,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <StartupObject>SistemaGabinos.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
