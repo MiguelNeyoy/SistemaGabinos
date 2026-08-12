@@ -1,0 +1,277 @@
+<Page x:Class="SistemaGabinos.Views.ReportesFinanzas"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SistemaGabinos.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1024"
+      Title="Reportes y Finanzas"
+      FontFamily="{StaticResource FontPoppins}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Reportes y Finanzas" Style="{StaticResource HeadlineLarge}" />
+            <TextBlock Text="Consulta los cortes de caja y la cartera vencida de alumnos." 
+                       Style="{StaticResource BodyLarge}" Foreground="{StaticResource BrushTextMuted}" />
+        </StackPanel>
+
+        <!-- Filters & Actions -->
+        <Border Grid.Row="1" Background="{StaticResource BrushSurface}" 
+                CornerRadius="8" Padding="20" Margin="0,0,0,24"
+                BorderBrush="{StaticResource BrushBorder}" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Desde Fecha:" Style="{StaticResource LabelMedium}" Margin="0,0,0,4" />
+                    <DatePicker SelectedDate="{Binding FechaInicio, Mode=TwoWay}" Width="150" Height="42" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Hasta Fecha:" Style="{StaticResource LabelMedium}" Margin="0,0,0,4" />
+                    <DatePicker SelectedDate="{Binding FechaFin, Mode=TwoWay}" Width="150" Height="42" />
+                </StackPanel>
+
+                <Button Grid.Column="4" Content="Generar Reporte" 
+                        Style="{StaticResource ButtonPrimary}"
+                        Command="{Binding GenerarReporteCommand}" 
+                        Padding="32,10" VerticalAlignment="Bottom" />
+            </Grid>
+        </Border>
+
+        <!-- Main Content (Tabs) -->
+        <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0">
+            
+            <!-- Tab: Corte de Caja -->
+            <TabItem Header="Corte de Caja" FontSize="16" FontWeight="SemiBold" Padding="12,8">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                    <!-- Resumen Corte Caja -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Total Recaudado -->
+                        <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="24" Background="{StaticResource BrushPrimary}">
+                            <StackPanel>
+                                <TextBlock Text="TOTAL RECAUDADO" Foreground="Black" FontWeight="SemiBold" FontSize="14" Opacity="0.8" />
+                                <TextBlock Text="{Binding Reporte.CorteCaja.TotalRecaudado, StringFormat='c'}" 
+                                           Foreground="Black" FontSize="42" FontWeight="Bold" Margin="0,4,0,0" />
+                                <TextBlock Text="{Binding Reporte.CorteCaja.TotalOperaciones, StringFormat='{}En {0} operaciones'}" 
+                                           Foreground="Black" FontSize="14" Opacity="0.8" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Desglose por Método -->
+                        <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="Por Método" Style="{StaticResource TitleLarge}" Margin="0,0,0,12" />
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Efectivo:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalEfectivo, StringFormat='c'}" FontWeight="SemiBold" />
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Transferencia:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalTransferencia, StringFormat='c'}" FontWeight="SemiBold" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Tarjeta:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalTarjeta, StringFormat='c'}" FontWeight="SemiBold" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Desglose por Concepto -->
+                        <Border Grid.Column="4" Style="{StaticResource CardStyle}" Padding="20">
+                            <StackPanel>
+                                <TextBlock Text="Por Concepto" Style="{StaticResource TitleLarge}" Margin="0,0,0,12" />
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Inscripciones:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalInscripciones, StringFormat='c'}" FontWeight="SemiBold" />
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Mensualidades:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalMensualidades, StringFormat='c'}" FontWeight="SemiBold" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Libros:" Foreground="{StaticResource BrushTextMuted}" Margin="0,4" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Reporte.CorteCaja.TotalLibros, StringFormat='c'}" FontWeight="SemiBold" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Lista de Pagos -->
+                    <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <!-- Cabecera de la lista -->
+                            <Border Grid.Row="0" Padding="20,16" Background="#FAFAFA">
+                                <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Detalle de Pagos Recibidos" Style="{StaticResource TitleLarge}" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" Content="📄 Exportar a PDF" Style="{StaticResource ButtonSecondary}" Command="{Binding ExportarPdfCommand}" />
+                                </Grid>
+                            </Border>
+                            
+                            <!-- DataGrid de Pagos -->
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Reporte.CorteCaja.PagosDetalle}" 
+                                      AutoGenerateColumns="False" IsReadOnly="True" 
+                                      HeadersVisibility="Column" SelectionMode="Single"
+                                      BorderThickness="0" Background="Transparent"
+                                      RowHeight="45"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Folio" Binding="{Binding Folio}" Width="90" />
+                                    <DataGridTextColumn Header="Fecha y Hora" Binding="{Binding Fecha, StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" Width="160" />
+                                    <DataGridTextColumn Header="Alumno" Binding="{Binding NombreAlumno}" Width="*" />
+                                    <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="150" />
+                                    <DataGridTextColumn Header="Método" Binding="{Binding MetodoPago}" Width="150" />
+                                    <DataGridTextColumn Header="Monto" Binding="{Binding Monto, StringFormat='c'}" Width="120">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab: Cartera Vencida -->
+            <TabItem Header="Cartera Vencida (Deudores)" FontSize="16" FontWeight="SemiBold" Padding="12,8">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                    <!-- Resumen Deudores -->
+                    <Grid Grid.Row="0" Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Total Adeudado Global -->
+                        <Border Grid.Column="0" Style="{StaticResource CardStyle}" Padding="24" Background="{StaticResource BrushSecondary}">
+                            <StackPanel>
+                                <TextBlock Text="TOTAL GLOBAL POR COBRAR" Foreground="White" FontWeight="SemiBold" FontSize="14" Opacity="0.9" />
+                                <TextBlock Text="{Binding Reporte.TotalGlobalPorCobrar, StringFormat='c'}" 
+                                           Foreground="White" FontSize="36" FontWeight="Bold" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Total Alumnos -->
+                        <Border Grid.Column="2" Style="{StaticResource CardStyle}" Padding="24" Background="{StaticResource BrushSurface}">
+                            <StackPanel>
+                                <TextBlock Text="TOTAL DE ALUMNOS DEUDORES" Foreground="{StaticResource BrushTextMuted}" FontWeight="SemiBold" FontSize="14" />
+                                <TextBlock Text="{Binding Reporte.TotalAlumnosDeudores, StringFormat='{}{0} Alumnos'}" 
+                                           Foreground="{StaticResource BrushText}" FontSize="32" FontWeight="SemiBold" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="4" Background="Transparent" />
+                    </Grid>
+
+                    <!-- Lista de Deudores -->
+                    <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <Border Grid.Row="0" Padding="20,16" Background="#FAFAFA">
+                                <StackPanel>
+                                    <TextBlock Text="Listado de Alumnos con Deuda" Style="{StaticResource TitleLarge}" />
+                                    <TextBlock Text="💡 Haz doble clic sobre un alumno para ir a su expediente y cobrarle." 
+                                               Foreground="{StaticResource BrushTextMuted}" Margin="0,4,0,0" />
+                                </StackPanel>
+                            </Border>
+                            
+                            <DataGrid x:Name="DeudoresGrid" Grid.Row="1" ItemsSource="{Binding Reporte.Deudores}" 
+                                      AutoGenerateColumns="False" IsReadOnly="True" 
+                                      HeadersVisibility="Column" SelectionMode="Single"
+                                      BorderThickness="0" Background="Transparent"
+                                      RowHeight="45"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      MouseDoubleClick="DeudoresGrid_MouseDoubleClick">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Alumno" Binding="{Binding NombreAlumno}" Width="2*" />
+                                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="150" />
+                                    <DataGridTextColumn Header="Concepto" Binding="{Binding ConceptosPendientesTexto}" Width="2*" />
+                                    <DataGridTextColumn Header="Monto Adeudado" Binding="{Binding TotalPendiente, StringFormat='c'}" Width="160">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                                <Setter Property="Foreground" Value="{StaticResource BrushSecondary}" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            
+        </TabControl>
+    </Grid>
+</Page>

@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Primary Palette -->
+    <Color x:Key="ColorPrimary">#FFCE0C</Color>
+    <Color x:Key="ColorSecondary">#FF6224</Color>
+
+    <!-- Neutrals -->
+    <Color x:Key="ColorSurface">#FFFFFF</Color>
+    <Color x:Key="ColorSurfaceAlt">#F8F6F0</Color>
+    <Color x:Key="ColorBorder">#E1E3E3</Color>
+    <Color x:Key="ColorText">#191C1C</Color>
+    <Color x:Key="ColorTextMuted">#4E4632</Color>
+    <Color x:Key="ColorError">#BA1A1A</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BrushPrimary" Color="{StaticResource ColorPrimary}" />
+    <SolidColorBrush x:Key="BrushSecondary" Color="{StaticResource ColorSecondary}" />
+    <SolidColorBrush x:Key="BrushSurface" Color="{StaticResource ColorSurface}" />
+    <SolidColorBrush x:Key="BrushSurfaceAlt" Color="{StaticResource ColorSurfaceAlt}" />
+    <SolidColorBrush x:Key="BrushBorder" Color="{StaticResource ColorBorder}" />
+    <SolidColorBrush x:Key="BrushText" Color="{StaticResource ColorText}" />
+    <SolidColorBrush x:Key="BrushTextMuted" Color="{StaticResource ColorTextMuted}" />
+    <SolidColorBrush x:Key="BrushError" Color="{StaticResource ColorError}" />
+    <SolidColorBrush x:Key="BrushWhite" Color="#FFFFFF" />
+
+</ResourceDictionary>

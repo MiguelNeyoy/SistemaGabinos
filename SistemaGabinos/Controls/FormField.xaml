@@ -1,0 +1,20 @@
+<UserControl x:Class="SistemaGabinos.Controls.FormField"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root">
+    <StackPanel>
+        <TextBlock Text="{Binding Label, ElementName=root}"
+                   Style="{StaticResource LabelMedium}"
+                   Margin="0,0,0,4" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="28" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="1"
+                     Text="{Binding Text, ElementName=root, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource InputStyle}"
+                     MaxLength="{Binding MaxLength, ElementName=root}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

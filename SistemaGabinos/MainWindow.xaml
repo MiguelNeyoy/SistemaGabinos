@@ -1,59 +1,95 @@
-﻿<Window x:Class="SistemaGabinos.MainWindow"
+<Window x:Class="SistemaGabinos.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:SistemaGabinos.Controls"
         xmlns:local="clr-namespace:SistemaGabinos"
         mc:Ignorable="d"
-        Title="Teacher Gabinos" Height="768" Width="1024">
-    <Grid RenderTransformOrigin="0.489,0.513">
+        Title="Teacher Gabinos" Height="768" Width="1280"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource FontPoppins}">
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="#DDDDDD" Width="150">
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource BrushSurfaceAlt}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Logo area -->
+                <Border Padding="24,28" BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1" Height="90" VerticalAlignment="Top" Margin="0,-20,0,0">
+                    <TextBlock Text="GABINOS"
+                               Foreground="{StaticResource BrushText}"
+                               FontSize="22"
+                               FontWeight="Bold" Margin="0,17,0,-17" />
+                </Border>
+
+                <!-- Navigation items -->
+                <StackPanel Grid.Row="1" Margin="0,16,0,0">
+                    <RadioButton Content="Panel de Control"
+                                 Style="{StaticResource SidebarItem}"
+                                 IsChecked="True"
+                                 Click="FunctionPanel_Click" />
+                    <RadioButton Content="Nueva Inscripcion"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="NewEnrollment" />
+                    <RadioButton Content="Reportes y Finanzas"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="ReportesFinanzas_Click" />
+                    <RadioButton Content="Configuración"
+                                 Style="{StaticResource SidebarItem}"
+                                 Click="Button_Click" />
+                </StackPanel>
+
+                <!-- Logout -->
+                
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0">
-                <Label Margin="10" HorizontalAlignment="Center" FontWeight="Bold">Teacher Gabinos</Label>
-                <Image  /> 
-                <Button Content="Panel De Control" Margin="10" Padding="5" Click="FunctionPanel_Click"/>
-                <Button Content="Nuevo Alumno" Margin="10" Padding="5" Click="NewErollment"/>
-                <Button Content="Pagos Extras" Margin="10" Padding="5"/>
-                <Button Content="Configuracion " Margin="10" Padding="5" Click="Button_Click"/>
-            </StackPanel>
-
-            <Button Grid.Row="1" Content="Cerrar Secion" Margin="10" Padding="5"/>
-        </Grid>
-
-        <Grid Grid.Column="1" Background="#FFFFFF">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Border Grid.Row="0" Background="#F0F0F0" Padding="10">
+            <!-- Top Bar -->
+            <Border Grid.Row="0" Background="{StaticResource BrushSurface}"
+                    BorderBrush="{StaticResource BrushBorder}" BorderThickness="0,0,0,1"
+                    Padding="24,12">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <TextBox Width="250" Height="28" VerticalAlignment="Center"/>
-                        <Button Content="Buscar" Margin="10,0,0,0" Padding="5"/>
-                    </StackPanel>
+                    <controls:SearchAutocomplete Grid.Column="0"
+                        x:Name="SearchBox"
+                        PlaceholderText="Buscar alumno por nombre o CURP..."
+                        SearchText="{Binding CriterioBusqueda, UpdateSourceTrigger=PropertyChanged}"
+                        ItemsSource="{Binding ResultadosBusqueda}"
+                        SelectedItem="{Binding AlumnoSeleccionado}"
+                        IsDropdownOpen="{Binding DropdownAbierto}"
+                        VerticalAlignment="Center" />
 
-                    <StackPanel Orientation="Horizontal" Grid.Column="2"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0"/>
                 </Grid>
             </Border>
 
-            <Frame x:Name="PrimaryContainer" Grid.Row="1" NavigationUIVisibility="Hidden"/>
+            <!-- Page Frame -->
+            <Frame x:Name="PrimaryContainer"
+                   Grid.Row="1"
+                   NavigationUIVisibility="Hidden"
+                   Background="{StaticResource BrushSurfaceAlt}" />
         </Grid>
     </Grid>
 </Window>

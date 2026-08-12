@@ -1,12 +1,22 @@
+using SistemaGabinos.ViewModels;
 using System.Windows.Controls;
 
-namespace SistemaGabinos.Views
+namespace SistemaGabinos.Views;
+
+public partial class NuevaMatricula : Page
 {
-    public partial class NuevaMatricula : Page
+    public NuevaMatricula(NuevaMatriculaViewModel viewModel)
     {
-        public NuevaMatricula()
+        InitializeComponent();
+        DataContext = viewModel;
+    }
+
+    private void ScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+    {
+        if (sender is ScrollViewer scrollViewer)
         {
-            InitializeComponent();
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }

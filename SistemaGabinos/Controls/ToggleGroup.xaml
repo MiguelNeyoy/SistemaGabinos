@@ -1,0 +1,19 @@
+<UserControl x:Class="SistemaGabinos.Controls.ToggleGroup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root">
+    <StackPanel>
+        <TextBlock Text="{Binding Label, ElementName=root}"
+                   Style="{StaticResource LabelMedium}"
+                   Margin="0,0,0,8" />
+        <StackPanel Orientation="Horizontal">
+            <ToggleButton Content="{Binding Option1Text, ElementName=root}"
+                          IsChecked="{Binding Option1Checked, ElementName=root}"
+                          Style="{StaticResource ToggleButtonStyle}"
+                          Margin="0,0,8,0" />
+            <ToggleButton Content="{Binding Option2Text, ElementName=root}"
+                          IsChecked="{Binding Option2Checked, ElementName=root}"
+                          Style="{StaticResource ToggleButtonStyle}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
