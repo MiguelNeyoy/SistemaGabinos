@@ -20,5 +20,7 @@ obj/
 .idea/
 *.sln.iml
 
+\docs\superpowers
+
 ## macOS
 .DS_Store
