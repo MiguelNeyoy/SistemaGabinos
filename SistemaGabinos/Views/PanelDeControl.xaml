@@ -11,16 +11,42 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="24">
 
-            <!-- Quick Action Buttons -->
-            <WrapPanel Margin="0,0,0,24">
-                <Button Content="Inscripción"
-                        Style="{StaticResource ButtonPrimary}"
-                        Click="NuevaMatricula_Click" />
-                <Button Content="Pagos"
-                        Style="{StaticResource ButtonAccent}"
-                        Margin="12,0,0,0"
-                        Click="Pagos_Click" />
-            </WrapPanel>
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Saludo}" Style="{StaticResource HeadlineMedium}" />
+                    <TextBlock Text="Resumen de la operación actual" Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <!-- Quick Action Buttons -->
+                <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                    <Button Content="Inscripción"
+                            Style="{StaticResource ButtonPrimary}"
+                            Click="NuevaMatricula_Click" />
+                    <Button Content="Pagos"
+                            Style="{StaticResource ButtonAccent}"
+                            Margin="12,0,0,0"
+                            Click="Pagos_Click" />
+                </WrapPanel>
+            </Grid>
+
+            <!-- Loading Indicator -->
+            <ProgressBar IsIndeterminate="True" Height="4" Margin="0,0,0,16">
+                <ProgressBar.Style>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EsCargando}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ProgressBar.Style>
+            </ProgressBar>
 
             <!-- Metrics Row -->
             <WrapPanel>
@@ -30,8 +56,8 @@
                 <Border Style="{StaticResource CardStyle}" Width="220" Padding="20,16" Margin="0,0,16,16">
                     <StackPanel>
                         <TextBlock Text="Matrículas Activas" Style="{StaticResource MetricLabel}" Margin="0,0,0,8" />
-                        <TextBlock Text="48" Style="{StaticResource MetricValue}" />
-                        <TextBlock Text="+3 esta semana" Style="{StaticResource LabelMedium}" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding MatriculasActivas}" Style="{StaticResource MetricValue}" />
+                        <TextBlock Text="Alumnos inscritos" Style="{StaticResource LabelMedium}" Margin="0,6,0,0" />
                     </StackPanel>
                 </Border>
 
@@ -41,14 +67,14 @@
                 <Border Style="{StaticResource CardStyle}" Width="220" Padding="20,16" Margin="0,0,0,16">
                     <StackPanel>
                         <TextBlock Text="Pagos Pendientes" Style="{StaticResource MetricLabel}" Margin="0,0,0,8" />
-                        <TextBlock Text="$2,850" Style="{StaticResource MetricValue}" Foreground="{StaticResource BrushSecondary}" />
-                        <TextBlock Text="6 alumnos" Style="{StaticResource LabelMedium}" Margin="0,6,0,0" />
+                        <TextBlock Text="{Binding TotalPendiente, StringFormat={}{0:C}}" Style="{StaticResource MetricValue}" Foreground="{StaticResource BrushSecondary}" />
+                        <TextBlock Text="{Binding AlumnosPendientes, StringFormat='{}{0} alumnos con adeudo'}" Style="{StaticResource LabelMedium}" Margin="0,6,0,0" />
                     </StackPanel>
                 </Border>
             </WrapPanel>
 
             <!-- Transactions Table -->
-            <Border Style="{StaticResource CardStyle}" Padding="0" Margin="0,8,0,0">
+            <Border Style="{StaticResource CardStyle}" Padding="0" Margin="0,8,0,0" HorizontalAlignment="Left">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -63,13 +89,20 @@
 
                     <!-- Table Body -->
                     <DataGrid Grid.Row="1" Style="{StaticResource TableStyle}" Margin="0"
-                              xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                              ItemsSource="{Binding Transacciones}"
+                              AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Alumno" Width="120" />
-                            <DataGridTextColumn Header="Concepto" Width="120" />
-                            <DataGridTextColumn Header="Monto" Width="120" />
-                            <DataGridTextColumn Header="Fecha" Width="140" />
-                            <DataGridTextColumn Header="Estado" Width="100" />
+                            <DataGridTextColumn Header="Alumno" Binding="{Binding NombreAlumno}" Width="240" />
+                            <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="250" />
+                            <DataGridTextColumn Header="Monto" Binding="{Binding Monto, StringFormat={}{0:C}}" Width="120" />
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" Width="160" />
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="120">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

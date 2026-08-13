@@ -19,4 +19,10 @@ public class PagoRepository : Repository<Pago>, IPagoRepository
         => DbSet.Where(p => !p.EstaCancelado && p.Fecha >= inicio && p.Fecha <= fin)
                 .OrderByDescending(p => p.Fecha)
                 .ToList();
+
+    public List<Pago> ObtenerTransaccionesRecientes(int limite = 10)
+        => DbSet.Where(p => !p.EstaCancelado)
+                .OrderByDescending(p => p.Fecha)
+                .Take(limite)
+                .ToList();
 }

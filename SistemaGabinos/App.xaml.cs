@@ -57,6 +57,7 @@ public partial class App : System.Windows.Application
                 services.AddScoped<IGestionarBecaUseCase, GestionarBecaUseCase>();
                 services.AddScoped<IActualizarAlumnoUseCase, ActualizarAlumnoUseCase>();
                 services.AddScoped<IObtenerReporteFinancieroUseCase, ObtenerReporteFinancieroUseCase>();
+                services.AddScoped<IObtenerMetricasDashboardUseCase, ObtenerMetricasDashboardUseCase>();
 
                 services.AddTransient<MainWindowViewModel>();
                 services.AddTransient<NuevaMatriculaViewModel>();
@@ -65,6 +66,7 @@ public partial class App : System.Windows.Application
                 services.AddTransient<ConfiguracionViewModel>();
                 services.AddTransient<EditarAlumnoViewModel>();
                 services.AddTransient<ReportesFinanzasViewModel>();
+                services.AddTransient<PanelDeControlViewModel>();
 
                 services.AddTransient<NuevaMatricula>();
                 services.AddTransient<ExpedienteAlumno>();
