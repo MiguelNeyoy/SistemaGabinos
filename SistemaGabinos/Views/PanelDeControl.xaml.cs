@@ -5,9 +5,14 @@ namespace SistemaGabinos.Views;
 
 public partial class PanelDeControl : Page
 {
-    public PanelDeControl()
+    private readonly ViewModels.PanelDeControlViewModel _viewModel;
+
+    public PanelDeControl(ViewModels.PanelDeControlViewModel viewModel)
     {
         InitializeComponent();
+        _viewModel = viewModel;
+        DataContext = _viewModel;
+        Loaded += (s, e) => _viewModel.CargarMetricas();
     }
 
     private void NuevaMatricula_Click(object sender, System.Windows.RoutedEventArgs e)

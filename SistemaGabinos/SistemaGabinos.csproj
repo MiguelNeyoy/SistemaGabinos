@@ -26,9 +26,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <StartupObject>SistemaGabinos.Program</StartupObject>
+
+	  <ApplicationIcon>Logo-Gabinos.ico</ApplicationIcon>
+	  <AssemblyName>Sistema Gabinos</AssemblyName>
+	  <Title>Sistema Gabinos</Title>
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="Logo-Gabinos.ico" />
     <Resource Include="Fonts\Poppins-Regular.ttf" />
     <Resource Include="Fonts\Poppins-Medium.ttf" />
     <Resource Include="Fonts\Poppins-SemiBold.ttf" />
