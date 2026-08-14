@@ -442,7 +442,7 @@
 
                         <!-- Botones de Acción de Actualización -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button Command="{Binding BuscarActualizacionesAsyncCommand}"
+                            <Button Command="{Binding BuscarActualizacionesCommand}"
                                     Padding="16,10"
                                     Margin="0,0,10,0">
                                 <Button.Style>
@@ -466,7 +466,7 @@
                                 </StackPanel>
                             </Button>
 
-                            <Button Command="{Binding AplicarActualizacionAsyncCommand}"
+                            <Button Command="{Binding AplicarActualizacionCommand}"
                                     Padding="16,10">
                                 <Button.Style>
                                     <Style TargetType="Button" BasedOn="{StaticResource ButtonPrimary}">
