@@ -33,11 +33,11 @@
                                    Foreground="{StaticResource BrushPrimary}"
                                    Margin="0,0,12,0"
                                    VerticalAlignment="Center" />
-                        <TextBlock Text="Configuración General de Costos y Becas"
+                        <TextBlock Text="Configuración General de Costos"
                                    Style="{StaticResource HeadlineLarge}"
                                    VerticalAlignment="Center" />
                     </StackPanel>
-                    <TextBlock Text="Administra las tarifas globales de colegiatura, inscripción, exámenes, libros y descuentos de becas."
+                    <TextBlock Text="Administra las tarifas globales de inscripción, exámenes y libros."
                                Style="{StaticResource BodyMedium}"
                                Foreground="{StaticResource BrushTextMuted}"
                                Margin="40,4,0,0" />
@@ -154,10 +154,6 @@
                     </StackPanel>
 
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="20" />
@@ -166,32 +162,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Mensualidad Base -->
-                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,20">
-                            <TextBlock Text="Colegiatura Mensual Base ($)"
-                                       Style="{StaticResource LabelMedium}"
-                                       Margin="0,0,0,6" />
-                            <Grid>
-                                <TextBox x:Name="TxtMensualidad"
-                                         Text="{Binding CostoMensualidad, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
-                                         Style="{StaticResource InputStyle}"
-                                         Padding="12,10" />
-                                <TextBlock Text="{Binding CostoMensualidadBD, StringFormat='Ej. {0:N2}'}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=TxtMensualidad}" Value="">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Grid>
-                        </StackPanel>
-
                         <!-- Inscripción -->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,20">
+                        <StackPanel Grid.Column="0">
                             <TextBlock Text="Inscripción Estándar ($)"
                                        Style="{StaticResource LabelMedium}"
                                        Margin="0,0,0,6" />
@@ -215,7 +187,7 @@
                         </StackPanel>
 
                         <!-- Examen de Ubicación -->
-                        <StackPanel Grid.Row="0" Grid.Column="4" Margin="0,0,0,20">
+                        <StackPanel Grid.Column="2">
                             <TextBlock Text="Examen de Ubicación ($)"
                                        Style="{StaticResource LabelMedium}"
                                        Margin="0,0,0,6" />
@@ -239,7 +211,7 @@
                         </StackPanel>
 
                         <!-- Costo Base de Libro -->
-                        <StackPanel Grid.Row="1" Grid.Column="0">
+                        <StackPanel Grid.Column="4">
                             <TextBlock Text="Costo Base de Libros ($)"
                                        Style="{StaticResource LabelMedium}"
                                        Margin="0,0,0,6" />
@@ -261,111 +233,6 @@
                                 </TextBlock>
                             </Grid>
                         </StackPanel>
-                    </Grid>
-                </StackPanel>
-            </Border>
-
-            <!-- Section 2: Gestión de Becas y Descuentos -->
-            <Border Style="{StaticResource CardStyle}" Padding="24" Margin="0,0,0,24">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <TextBlock Text="Gestión de Becas y Descuentos"
-                                   Style="{StaticResource HeadlineMedium}"
-                                   VerticalAlignment="Center" />
-                    </StackPanel>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition Width="1.5*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Input Monto Descuento Beca -->
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="Monto de Descuento de la Beca ($)"
-                                       Style="{StaticResource LabelMedium}"
-                                       Margin="0,0,0,6" />
-                            <Grid>
-                                <TextBox x:Name="TxtDescuentoBeca"
-                                         Text="{Binding MontoDescuentoBeca, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
-                                         Style="{StaticResource InputStyle}"
-                                         Padding="12,10" />
-                                <TextBlock Text="{Binding MontoDescuentoBecaBD, StringFormat='Ej. {0:N2}'}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource PlaceholderStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=TxtDescuentoBeca}" Value="">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Grid>
-                            <TextBlock Text="Este descuento se resta automáticamente de la mensualidad base para alumnos con beca activa."
-                                       Style="{StaticResource BodyMedium}"
-                                       FontSize="12"
-                                       Foreground="{StaticResource BrushTextMuted}"
-                                       Margin="0,6,0,0" />
-                        </StackPanel>
-
-                        <!-- Display Dual Cards: Sin Beca vs Con Beca -->
-                        <Grid Grid.Column="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="16" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Tarifa Regular (Sin Beca) -->
-                            <Border Grid.Column="0"
-                                    Background="{StaticResource BrushSurfaceAlt}"
-                                    BorderBrush="{StaticResource BrushBorder}"
-                                    BorderThickness="1"
-                                    CornerRadius="8"
-                                    Padding="16,14">
-                                <StackPanel>
-                                    <TextBlock Text="MENSUALIDAD REGULAR"
-                                               Style="{StaticResource LabelMedium}"
-                                               FontWeight="Bold"
-                                               Foreground="{StaticResource BrushTextMuted}" />
-                                    <TextBlock Text="Sin Beca"
-                                               Style="{StaticResource BodyMedium}"
-                                               FontSize="11"
-                                               Foreground="{StaticResource BrushTextMuted}"
-                                               Margin="0,1,0,8" />
-                                    <TextBlock Text="{Binding MensualidadSinBeca, StringFormat={}{0:C} MXN}"
-                                               Style="{StaticResource HeadlineMedium}"
-                                               Foreground="{StaticResource BrushText}"
-                                               FontSize="20" />
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Tarifa Especial (Con Beca) -->
-                            <Border Grid.Column="2"
-                                    Background="#FFFCE0"
-                                    BorderBrush="{StaticResource BrushPrimary}"
-                                    BorderThickness="1"
-                                    CornerRadius="8"
-                                    Padding="16,14">
-                                <StackPanel>
-                                    <TextBlock Text="MENSUALIDAD CON BECA"
-                                               Style="{StaticResource LabelMedium}"
-                                               FontWeight="Bold"
-                                               Foreground="{StaticResource BrushSecondary}" />
-                                    <TextBlock Text="Con Beca Activa"
-                                               Style="{StaticResource BodyMedium}"
-                                               FontSize="11"
-                                               Foreground="{StaticResource BrushTextMuted}"
-                                               Margin="0,1,0,8" />
-                                    <TextBlock Text="{Binding MensualidadConBeca, StringFormat={}{0:C} MXN}"
-                                               Style="{StaticResource HeadlineMedium}"
-                                               Foreground="{StaticResource BrushSecondary}"
-                                               FontSize="20" />
-                                </StackPanel>
-                            </Border>
-                        </Grid>
                     </Grid>
                 </StackPanel>
             </Border>

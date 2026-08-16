@@ -77,18 +77,6 @@ public partial class ConfiguracionViewModel : ObservableObject
     [ObservableProperty]
     private string? _mensajeUpdate;
 
-    public decimal MensualidadSinBeca => CostoMensualidad ?? CostoMensualidadBD;
-
-    public decimal MensualidadConBeca
-    {
-        get
-        {
-            var mensualidad = CostoMensualidad ?? CostoMensualidadBD;
-            var descuento = MontoDescuentoBeca ?? MontoDescuentoBecaBD;
-            return Math.Max(0, mensualidad - descuento);
-        }
-    }
-
     public ConfiguracionViewModel(
         IObtenerPreciosConfiguracionUseCase obtenerPreciosUseCase,
         IActualizarPreciosUseCase actualizarPreciosUseCase,
@@ -125,8 +113,6 @@ public partial class ConfiguracionViewModel : ObservableObject
                 CostoExamenUbicacion = null;
                 MontoDescuentoBeca = null;
             }
-
-            NotificarTarifasCalculadas();
         }
         catch (Exception ex)
         {
@@ -203,22 +189,6 @@ public partial class ConfiguracionViewModel : ObservableObject
         }
     }
 
-    partial void OnCostoMensualidadChanged(decimal? value)
-    {
-        NotificarTarifasCalculadas();
-    }
-
-    partial void OnMontoDescuentoBecaChanged(decimal? value)
-    {
-        NotificarTarifasCalculadas();
-    }
-
-    private void NotificarTarifasCalculadas()
-    {
-        OnPropertyChanged(nameof(MensualidadSinBeca));
-        OnPropertyChanged(nameof(MensualidadConBeca));
-    }
-
     [RelayCommand]
     private void GuardarCambios()
     {
@@ -255,9 +225,7 @@ public partial class ConfiguracionViewModel : ObservableObject
             CostoExamenUbicacion = null;
             MontoDescuentoBeca = null;
 
-            NotificarTarifasCalculadas();
-
-            MostrarExito("Configuración de costos y becas guardada correctamente.");
+            MostrarExito("Configuración de costos guardada correctamente.");
         }
         catch (ArgumentException ex)
         {
