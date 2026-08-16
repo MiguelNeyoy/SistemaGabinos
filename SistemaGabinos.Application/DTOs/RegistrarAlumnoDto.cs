@@ -12,7 +12,8 @@ public record RegistrarAlumnoRequest(
     string? TelefonoTutor,
     int CursoId,
     Horario Horario = Horario.Mañana,
-    bool TieneBeca = false);
+    decimal CostoMensualidadPactada = 1400m,
+    decimal DescuentoBecaPactada = 0m);
 
 public record RegistrarAlumnoResponse(
     int AlumnoId,

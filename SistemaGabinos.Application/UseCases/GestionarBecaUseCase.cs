@@ -1,4 +1,5 @@
 using SistemaGabinos.Application.Interfaces;
+using SistemaGabinos.Domain.Entities;
 using SistemaGabinos.Domain.Enums;
 using SistemaGabinos.Domain.Exceptions;
 using SistemaGabinos.Domain.Interfaces;
@@ -29,10 +30,11 @@ public class GestionarBecaUseCase : IGestionarBecaUseCase
         if (alumno.TieneBeca)
             throw new DomainException("El alumno ya tiene beca asignada.");
 
-        alumno.AsignarBeca();
+        var config = _precioConfigRepo.Obtener();
+        alumno.ActualizarCondicionesPago(alumno.CostoMensualidadPactada, config.MontoDescuentoBeca);
         _alumnoRepo.Guardar(alumno);
 
-        RecalcularMensualidadPendiente(alumnoId, conBeca: true);
+        RecalcularMensualidadPendiente(alumno);
 
         return $"Beca asignada a '{alumno.NombreCompleto}'. Mensualidad pendiente recalculada.";
     }
@@ -45,28 +47,23 @@ public class GestionarBecaUseCase : IGestionarBecaUseCase
         if (!alumno.TieneBeca)
             throw new DomainException("El alumno no tiene beca asignada.");
 
-        alumno.QuitarBeca();
+        alumno.ActualizarCondicionesPago(alumno.CostoMensualidadPactada, 0);
         _alumnoRepo.Guardar(alumno);
 
-        RecalcularMensualidadPendiente(alumnoId, conBeca: false);
+        RecalcularMensualidadPendiente(alumno);
 
         return $"Beca retirada de '{alumno.NombreCompleto}'. Mensualidad pendiente recalculada.";
     }
 
-    private void RecalcularMensualidadPendiente(int alumnoId, bool conBeca)
+    private void RecalcularMensualidadPendiente(Alumno alumno)
     {
-        var config = _precioConfigRepo.Obtener();
-        var deudas = _deudaRepo.ObtenerPorAlumno(alumnoId);
+        var deudas = _deudaRepo.ObtenerPorAlumno(alumno.Id);
         var mensualidadPendiente = deudas
             .FirstOrDefault(d => d.Concepto == ConceptoDeuda.Mensualidad && !d.EstaPagada);
 
         if (mensualidadPendiente is null) return;
 
-        decimal nuevoMonto = conBeca
-            ? Math.Max(0, config.CostoMensualidad - config.MontoDescuentoBeca)
-            : config.CostoMensualidad;
-
-        mensualidadPendiente.RecalcularMonto(nuevoMonto);
+        mensualidadPendiente.RecalcularMonto(alumno.MensualidadNeta);
         _deudaRepo.Guardar(mensualidadPendiente);
     }
 }

@@ -23,8 +23,8 @@ public class ObtenerReporteFinancieroUseCase : IObtenerReporteFinancieroUseCase
 
     public ReporteFinancieroGeneralDto GenerarReporte(DateTime? inicio = null, DateTime? fin = null)
     {
-        DateTime fechaInicio = inicio ?? DateTime.Today;
-        DateTime fechaFin = fin ?? DateTime.Today.AddDays(1).AddTicks(-1);
+        DateTime fechaInicio = (inicio ?? DateTime.Today).Date;
+        DateTime fechaFin = (fin ?? DateTime.Today).Date.AddDays(1).AddTicks(-1);
 
         var corteCaja = GenerarCorteCaja(fechaInicio, fechaFin);
         var deudores = ObtenerDeudores();
