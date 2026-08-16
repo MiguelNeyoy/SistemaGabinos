@@ -11,16 +11,13 @@ public class GenerarMensualidadesAniversarioUseCase : IGenerarMensualidadesAnive
 {
     private readonly IAlumnoRepository _alumnoRepo;
     private readonly IDeudaRepository _deudaRepo;
-    private readonly IPrecioConfiguracionRepository _precioConfigRepo;
 
     public GenerarMensualidadesAniversarioUseCase(
         IAlumnoRepository alumnoRepo,
-        IDeudaRepository deudaRepo,
-        IPrecioConfiguracionRepository precioConfigRepo)
+        IDeudaRepository deudaRepo)
     {
         _alumnoRepo = alumnoRepo;
         _deudaRepo = deudaRepo;
-        _precioConfigRepo = precioConfigRepo;
     }
 
     public int Ejecutar()
@@ -31,7 +28,6 @@ public class GenerarMensualidadesAniversarioUseCase : IGenerarMensualidadesAnive
         if (alumnosEnCorte.Count == 0)
             return 0;
 
-        var precioConfig = _precioConfigRepo.Obtener();
         int deudasGeneradas = 0;
 
         foreach (var alumno in alumnosEnCorte)
@@ -47,11 +43,7 @@ public class GenerarMensualidadesAniversarioUseCase : IGenerarMensualidadesAnive
                 continue;
             }
 
-            decimal montoMensualidad = alumno.TieneBeca 
-                ? Math.Max(0, precioConfig.CostoMensualidad - precioConfig.MontoDescuentoBeca) 
-                : precioConfig.CostoMensualidad;
-
-            var nuevaDeuda = new Deuda(alumno.Id, ConceptoDeuda.Mensualidad, montoMensualidad);
+            var nuevaDeuda = new Deuda(alumno.Id, ConceptoDeuda.Mensualidad, alumno.MensualidadNeta);
             _deudaRepo.Guardar(nuevaDeuda);
 
             alumno.AvanzarProximaFechaCobro();

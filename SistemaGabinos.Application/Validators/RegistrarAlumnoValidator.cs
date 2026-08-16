@@ -17,5 +17,9 @@ public class RegistrarAlumnoValidator : AbstractValidator<RegistrarAlumnoRequest
             .MinimumLength(10).WithMessage("El teléfono debe tener al menos 10 dígitos.");
         RuleFor(x => x.CursoId).GreaterThan(0).WithMessage("Debe seleccionar un curso.");
         RuleFor(x => x.Horario).IsInEnum().WithMessage("Seleccione un horario válido.");
+        RuleFor(x => x.CostoMensualidadPactada).GreaterThan(0).WithMessage("El costo de mensualidad debe ser mayor a $0.00.");
+        RuleFor(x => x.DescuentoBecaPactada).GreaterThanOrEqualTo(0).WithMessage("El descuento de beca no puede ser negativo.")
+            .Must((request, beca) => beca < request.CostoMensualidadPactada)
+            .WithMessage("La beca no puede ser mayor o igual al 100% de la mensualidad.");
     }
 }

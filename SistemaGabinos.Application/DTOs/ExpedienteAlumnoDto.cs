@@ -12,6 +12,9 @@ public class ExpedienteAlumnoDto
     public string? TelefonoTutor { get; set; }
     public string Estado { get; set; } = string.Empty;
     public bool TieneBeca { get; set; }
+    public decimal CostoMensualidadPactada { get; set; }
+    public decimal DescuentoBecaPactada { get; set; }
+    public decimal MensualidadNeta { get; set; }
     public string Horario { get; set; } = string.Empty;
     public string CursoActual { get; set; } = string.Empty;
     public List<PagoItem> Pagos { get; set; } = new();

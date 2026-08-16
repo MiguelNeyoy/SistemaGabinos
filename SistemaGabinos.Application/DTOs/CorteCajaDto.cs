@@ -11,4 +11,8 @@ public record CorteCajaDto(
     decimal TotalLibros,
     decimal TotalMensualidades,
     int TotalTransacciones,
-    List<PagoDetalleReporteDto> Pagos);
+    List<PagoDetalleReporteDto> Pagos)
+{
+    public List<PagoDetalleReporteDto> PagosDetalle => Pagos;
+    public int TotalOperaciones => TotalTransacciones;
+}

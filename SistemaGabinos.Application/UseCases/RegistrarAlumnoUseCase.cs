@@ -51,7 +51,8 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
             request.NombreTutor,
             request.ParentescoTutor,
             request.TelefonoTutor,
-            request.TieneBeca);
+            request.CostoMensualidadPactada,
+            request.DescuentoBecaPactada);
 
         alumno.ValidarReglasDeNegocio();
         _alumnoRepo.Guardar(alumno);
@@ -64,7 +65,7 @@ public class RegistrarAlumnoUseCase : IRegistrarAlumnoUseCase
 
         var deudaInscripcion = new Deuda(alumno.Id, ConceptoDeuda.Inscripcion, configuracion.CostoInscripcion);
         var deudaLibro = new Deuda(alumno.Id, ConceptoDeuda.Libro, curso?.PrecioLibro ?? configuracion.CostoLibro);
-        var deudaMensualidad = new Deuda(alumno.Id, ConceptoDeuda.Mensualidad, configuracion.CostoMensualidad);
+        var deudaMensualidad = new Deuda(alumno.Id, ConceptoDeuda.Mensualidad, alumno.MensualidadNeta);
 
         _deudaRepo.Guardar(deudaInscripcion);
         _deudaRepo.Guardar(deudaLibro);
