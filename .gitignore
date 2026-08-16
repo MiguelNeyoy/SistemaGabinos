@@ -26,5 +26,8 @@ obj/
 dist/
 Releases/
 
+## Tools & IDEs
+.opencode/
+
 ## macOS
 .DS_Store
