@@ -27,7 +27,10 @@ public class SistemaGabinosDBContext : DbContext
             entity.Property(a => a.Telefono).IsRequired();
             entity.Property(a => a.FechaRegistro).IsRequired();
             entity.Property(a => a.Estado).IsRequired().HasConversion<string>();
-            entity.Property(a => a.TieneBeca).IsRequired();
+            entity.Property(a => a.CostoMensualidadPactada).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(a => a.DescuentoBecaPactada).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Ignore(a => a.TieneBeca);
+            entity.Ignore(a => a.MensualidadNeta);
         });
 
         modelBuilder.Entity<Curso>(entity =>

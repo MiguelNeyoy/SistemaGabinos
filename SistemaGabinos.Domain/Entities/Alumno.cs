@@ -20,8 +20,12 @@ public class Alumno
     public string? TelefonoTutor { get; private set; }
     public DateTime FechaRegistro { get; private set; }
     public EstadoAlumno Estado { get; private set; }
-    public bool TieneBeca { get; private set; }
     public DateTime ProximaFechaCobro { get; private set; }
+    public decimal CostoMensualidadPactada { get; private set; }
+    public decimal DescuentoBecaPactada { get; private set; }
+
+    public decimal MensualidadNeta => Math.Max(0, CostoMensualidadPactada - DescuentoBecaPactada);
+    public bool TieneBeca => DescuentoBecaPactada > 0;
 
     private Alumno() { }
 
@@ -33,7 +37,8 @@ public class Alumno
         string? nombreTutor,
         string? parentescoTutor,
         string? telefonoTutor,
-        bool tieneBeca = false)
+        decimal costoMensualidadPactada = 800m,
+        decimal descuentoBecaPactada = 0m)
     {
 
         if (string.IsNullOrWhiteSpace(nombreCompleto))
@@ -66,11 +71,23 @@ public class Alumno
         FechaRegistro = DateTime.UtcNow;
         ProximaFechaCobro = FechaRegistro.AddMonths(1);
         Estado = EstadoAlumno.Activo;
-        TieneBeca = tieneBeca;
+        ActualizarCondicionesPago(costoMensualidadPactada, descuentoBecaPactada);
     }
 
-    public void AsignarBeca() => TieneBeca = true;
-    public void QuitarBeca() => TieneBeca = false;
+    public void ActualizarCondicionesPago(decimal nuevoCosto, decimal nuevaBeca)
+    {
+        if (nuevoCosto <= 0)
+            throw new ArgumentException("El costo de mensualidad debe ser mayor a $0.00.", nameof(nuevoCosto));
+
+        if (nuevaBeca < 0)
+            throw new ArgumentException("El descuento de beca no puede ser negativo.", nameof(nuevaBeca));
+
+        if (nuevaBeca >= nuevoCosto)
+            throw new ArgumentException("La beca no puede ser mayor o igual al 100% de la mensualidad.", nameof(nuevaBeca));
+
+        CostoMensualidadPactada = nuevoCosto;
+        DescuentoBecaPactada = nuevaBeca;
+    }
 
     public void AvanzarProximaFechaCobro()
     {
