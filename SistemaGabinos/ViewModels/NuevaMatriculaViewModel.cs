@@ -70,6 +70,15 @@ public partial class NuevaMatriculaViewModel : ObservableObject
     [ObservableProperty]
     private decimal _total;
 
+    [ObservableProperty]
+    private decimal _costoMensualidadPactada = 1400m;
+
+    [ObservableProperty]
+    private decimal _descuentoBecaPactada = 0m;
+
+    [ObservableProperty]
+    private decimal _mensualidadNeta = 1400m;
+
     public ObservableCollection<Curso> Cursos { get; } = new();
     public ObservableCollection<ConceptoCobroItem> ConceptosCobro { get; } = new();
     public Horario[] Horarios => Enum.GetValues<Horario>();
@@ -82,7 +91,43 @@ public partial class NuevaMatriculaViewModel : ObservableObject
         _useCase = useCase;
         _cursoRepo = cursoRepo;
         _obtenerPreciosUseCase = obtenerPreciosUseCase;
+        CargarPreciosPorDefecto();
         CargarCursos();
+    }
+
+    private void CargarPreciosPorDefecto()
+    {
+        var config = _obtenerPreciosUseCase.Ejecutar();
+        if (config != null)
+        {
+            CostoMensualidadPactada = config.CostoMensualidad;
+            DescuentoBecaPactada = 0m;
+            ActualizarMensualidadNeta();
+        }
+    }
+
+    partial void OnCostoMensualidadPactadaChanged(decimal value)
+    {
+        ActualizarMensualidadNeta();
+    }
+
+    partial void OnDescuentoBecaPactadaChanged(decimal value)
+    {
+        ActualizarMensualidadNeta();
+    }
+
+    private void ActualizarMensualidadNeta()
+    {
+        MensualidadNeta = Math.Max(0, CostoMensualidadPactada - DescuentoBecaPactada);
+        if (CursoSeleccionado is not null)
+        {
+            var itemMensualidad = ConceptosCobro.FirstOrDefault(c => c.Descripcion.Contains("Mensualidad"));
+            if (itemMensualidad != null)
+            {
+                itemMensualidad.Monto = MensualidadNeta;
+                RecalcularTotal();
+            }
+        }
     }
 
     private void CargarCursos()
@@ -133,7 +178,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
         ConceptosCobro.Add(new ConceptoCobroItem
         {
             Descripcion = "Primera Mensualidad Base",
-            Monto = config?.CostoMensualidad ?? 1400m,
+            Monto = MensualidadNeta,
             Seleccionado = true
         });
 
@@ -165,7 +210,8 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             var request = new RegistrarAlumnoRequest(
                 NombreCompleto, Curp, FechaNacimiento, Telefono,
                 NombreTutor, ParentescoTutor, TelefonoTutor,
-                CursoSeleccionado.Id, HorarioSeleccionado);
+                CursoSeleccionado.Id, HorarioSeleccionado,
+                CostoMensualidadPactada, DescuentoBecaPactada);
 
             var response = _useCase.Ejecutar(request);
             AlumnoId = response.AlumnoId;

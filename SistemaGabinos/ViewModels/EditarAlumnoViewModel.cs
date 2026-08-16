@@ -10,6 +10,7 @@ namespace SistemaGabinos.ViewModels;
 public partial class EditarAlumnoViewModel : ObservableObject
 {
     private readonly IActualizarAlumnoUseCase _actualizarUseCase;
+    private readonly IActualizarCondicionesPagoUseCase _actualizarCondicionesUseCase;
 
     [ObservableProperty]
     private int _id;
@@ -36,6 +37,12 @@ public partial class EditarAlumnoViewModel : ObservableObject
     private string? _telefonoTutor;
 
     [ObservableProperty]
+    private decimal _costoMensualidadPactada;
+
+    [ObservableProperty]
+    private decimal _descuentoBecaPactada;
+
+    [ObservableProperty]
     private string _tituloSeccionTutor = "Contacto de Emergencia / Tutor (Opcional)";
 
     [ObservableProperty]
@@ -44,11 +51,16 @@ public partial class EditarAlumnoViewModel : ObservableObject
     [ObservableProperty]
     private string? _mensajeError;
 
+    public decimal MensualidadNeta => Math.Max(0, CostoMensualidadPactada - DescuentoBecaPactada);
+
     public event Action? GuardadoExitoso;
 
-    public EditarAlumnoViewModel(IActualizarAlumnoUseCase actualizarUseCase)
+    public EditarAlumnoViewModel(
+        IActualizarAlumnoUseCase actualizarUseCase,
+        IActualizarCondicionesPagoUseCase actualizarCondicionesUseCase)
     {
         _actualizarUseCase = actualizarUseCase;
+        _actualizarCondicionesUseCase = actualizarCondicionesUseCase;
     }
 
     public void CargarAlumno(ExpedienteAlumnoDto alumno)
@@ -61,8 +73,21 @@ public partial class EditarAlumnoViewModel : ObservableObject
         NombreTutor = alumno.NombreTutor;
         ParentescoTutor = alumno.ParentescoTutor;
         TelefonoTutor = alumno.TelefonoTutor;
+        CostoMensualidadPactada = alumno.CostoMensualidadPactada;
+        DescuentoBecaPactada = alumno.DescuentoBecaPactada;
 
+        OnPropertyChanged(nameof(MensualidadNeta));
         EvaluarEdad(alumno.FechaNacimiento);
+    }
+
+    partial void OnCostoMensualidadPactadaChanged(decimal value)
+    {
+        OnPropertyChanged(nameof(MensualidadNeta));
+    }
+
+    partial void OnDescuentoBecaPactadaChanged(decimal value)
+    {
+        OnPropertyChanged(nameof(MensualidadNeta));
     }
 
     partial void OnFechaNacimientoChanged(DateTime value)
@@ -99,6 +124,8 @@ public partial class EditarAlumnoViewModel : ObservableObject
                 TelefonoTutor);
 
             _actualizarUseCase.Ejecutar(request);
+            _actualizarCondicionesUseCase.Ejecutar(Id, CostoMensualidadPactada, DescuentoBecaPactada);
+
             GuardadoExitoso?.Invoke();
         }
         catch (FluentValidation.ValidationException vex)

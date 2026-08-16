@@ -12,7 +12,6 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
     private readonly IObtenerExpedienteAlumnoUseCase _expedienteUseCase;
     private readonly IPdfRenderService _pdfRenderService;
     private readonly ICambiarEstadoAlumnoUseCase _cambiarEstadoUseCase;
-    private readonly IGestionarBecaUseCase _gestionarBecaUseCase;
 
     [ObservableProperty]
     private ExpedienteAlumnoDto? _alumno;
@@ -40,13 +39,11 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
     public ExpedienteAlumnoViewModel(
         IObtenerExpedienteAlumnoUseCase expedienteUseCase,
         IPdfRenderService pdfRenderService,
-        ICambiarEstadoAlumnoUseCase cambiarEstadoUseCase,
-        IGestionarBecaUseCase gestionarBecaUseCase)
+        ICambiarEstadoAlumnoUseCase cambiarEstadoUseCase)
     {
         _expedienteUseCase = expedienteUseCase;
         _pdfRenderService = pdfRenderService;
         _cambiarEstadoUseCase = cambiarEstadoUseCase;
-        _gestionarBecaUseCase = gestionarBecaUseCase;
     }
 
     public void CargarAlumno(int alumnoId)
@@ -115,23 +112,6 @@ public partial class ExpedienteAlumnoViewModel : ObservableObject
         try
         {
             MensajeExpediente = _cambiarEstadoUseCase.Reactivar(Alumno.Id);
-            CargarAlumno(Alumno.Id);
-        }
-        catch (Exception ex)
-        {
-            MensajeExpediente = ex.Message;
-        }
-    }
-
-    [RelayCommand]
-    private void ToggleBeca()
-    {
-        if (Alumno is null) return;
-        try
-        {
-            MensajeExpediente = Alumno.TieneBeca
-                ? _gestionarBecaUseCase.QuitarBeca(Alumno.Id)
-                : _gestionarBecaUseCase.AsignarBeca(Alumno.Id);
             CargarAlumno(Alumno.Id);
         }
         catch (Exception ex)

@@ -128,7 +128,7 @@
                     Matrícula: <Run FontWeight="SemiBold" Text="{Binding Alumno.Id}" /> • Nivel Actual: <Run FontWeight="SemiBold" Text="{Binding Alumno.CursoActual, FallbackValue='Sin Nivel'}" />
                 </TextBlock>
 
-                <!-- Line 3: Metadata CURP, Phone, Tutor -->
+                <!-- Line 3: Metadata CURP, Phone, Tutor & Financial Conditions -->
                 <WrapPanel Grid.Column="1" Grid.Row="2" Margin="0,8,0,0">
                     <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,24,0">
                         CURP: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.Curp}" />
@@ -136,15 +136,17 @@
                     <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,24,0">
                         Teléfono: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.Telefono}" />
                     </TextBlock>
-                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}">
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" Margin="0,0,24,0">
                         Tutor: <Run FontWeight="SemiBold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.NombreTutor}" />
+                    </TextBlock>
+                    <TextBlock Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}">
+                        Mensualidad: <Run FontWeight="Bold" Foreground="{StaticResource BrushText}" Text="{Binding Alumno.MensualidadNeta, StringFormat={}{0:C}}" />
                     </TextBlock>
                 </WrapPanel>
 
-                <!-- Action Buttons (Right Aligned in 2 Clean Rows) -->
+                <!-- Action Buttons (Right Aligned in 1 Clean Row) -->
                 <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="16,0,0,0">
-                    <!-- Row 1: Primary Operations (Pagar, Exportar PDF, Editar) -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="Exportar PDF"
                                 Style="{StaticResource ButtonSecondary}"
                                 Command="{Binding ExportarPdfCommand}"
@@ -155,34 +157,8 @@
                                 Command="{Binding EditarCommand}"
                                 Padding="16,8"
                                 Margin="0,0,8,0" />
-                        <Button Content="Pagar"
-                                Style="{StaticResource ButtonPrimary}"
-                                Command="{Binding PagarCommand}"
-                                Padding="22,8" />
-                    </StackPanel>
-
-                    <!-- Row 2: Administrative Actions (Beca, Estado) -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <!-- Botón Beca Dinámico -->
-                        <Button Padding="14,6" Margin="0,0,8,0">
-                            <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource ButtonSecondary}">
-                                    <Setter Property="Content" Value="+ Asignar Beca" />
-                                    <Setter Property="Command" Value="{Binding ToggleBecaCommand}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneBeca}" Value="True">
-                                            <Setter Property="Content" Value="✕ Quitar Beca" />
-                                            <Setter Property="Background" Value="#FFF1F2" />
-                                            <Setter Property="Foreground" Value="#991B1B" />
-                                            <Setter Property="BorderBrush" Value="#FECDD3" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
                         <!-- Botón Estado Dinámico (Dar de Baja / Reactivar) -->
-                        <Button Padding="14,6">
+                        <Button Padding="14,6" Margin="0,0,8,0">
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource ButtonSecondary}">
                                     <Setter Property="Content" Value="Dar de Baja" />
@@ -199,7 +175,28 @@
                                 </Style>
                             </Button.Style>
                         </Button>
+                        <Button Content="Pagar"
+                                Style="{StaticResource ButtonPrimary}"
+                                Command="{Binding PagarCommand}"
+                                Padding="22,8" />
                     </StackPanel>
+
+                    <!-- Feedback Message -->
+                    <TextBlock Text="{Binding MensajeExpediente}"
+                               Foreground="{StaticResource BrushPrimary}"
+                               FontSize="11"
+                               HorizontalAlignment="Right"
+                               Margin="0,6,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </StackPanel>
             </Grid>
         </Border>

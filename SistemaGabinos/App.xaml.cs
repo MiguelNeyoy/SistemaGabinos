@@ -56,6 +56,7 @@ public partial class App : System.Windows.Application
                 services.AddScoped<ICambiarEstadoAlumnoUseCase, CambiarEstadoAlumnoUseCase>();
                 services.AddScoped<IGestionarBecaUseCase, GestionarBecaUseCase>();
                 services.AddScoped<IActualizarAlumnoUseCase, ActualizarAlumnoUseCase>();
+                services.AddScoped<IActualizarCondicionesPagoUseCase, ActualizarCondicionesPagoUseCase>();
                 services.AddScoped<IObtenerReporteFinancieroUseCase, ObtenerReporteFinancieroUseCase>();
                 services.AddScoped<IObtenerMetricasDashboardUseCase, ObtenerMetricasDashboardUseCase>();
 

@@ -47,6 +47,52 @@
                                             SelectedItem="{Binding CursoSeleccionado}"
                                             Margin="0,16,0,0" />
 
+                        <!-- Sección de Condiciones Financieras Pactadas -->
+                        <Border Background="{StaticResource BrushSurfaceAlt}" 
+                                BorderBrush="{StaticResource BrushBorder}" 
+                                BorderThickness="1" 
+                                CornerRadius="8" 
+                                Padding="16" 
+                                Margin="0,16,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Condiciones de Pago Mensual" 
+                                           Style="{StaticResource LabelMedium}" 
+                                           FontWeight="Bold" 
+                                           Margin="0,0,0,12" />
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Costo Mensualidad Base -->
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Costo Mensualidad ($)" Style="{StaticResource LabelMedium}" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding CostoMensualidadPactada, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Style="{StaticResource InputStyle}" />
+                                    </StackPanel>
+
+                                    <!-- Descuento de Beca -->
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="Descuento Beca ($)" Style="{StaticResource LabelMedium}" Margin="0,0,0,4" />
+                                        <TextBox Text="{Binding DescuentoBecaPactada, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Style="{StaticResource InputStyle}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Indicador de Mensualidad Neta Resultante -->
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                    <TextBlock Text="Mensualidad Neta a Cobrar: " Style="{StaticResource BodyMedium}" Foreground="{StaticResource BrushTextMuted}" />
+                                    <TextBlock Text="{Binding MensualidadNeta, StringFormat={}{0:C} MXN}" 
+                                               Style="{StaticResource BodyMedium}" 
+                                               FontWeight="Bold" 
+                                               Foreground="{StaticResource BrushPrimary}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
                         <Border BorderBrush="{StaticResource BrushBorder}"
                                 BorderThickness="0,1,0,0"
                                 Margin="0,20,0,16"
