@@ -85,7 +85,7 @@ public partial class MainWindow : Window
         var page = App.Services.GetRequiredService<NuevaMatricula>();
         if (page.DataContext is NuevaMatriculaViewModel vm)
         {
-            vm.NavegarACobroSolicitado += (alumnoId) => NavegarACobro(alumnoId);
+            vm.NavegarAExpedienteSolicitado += (alumnoId) => NavegarAExpediente(alumnoId);
         }
         PrimaryContainer.Navigate(page);
     }
