@@ -26,8 +26,11 @@ public partial class App : System.Windows.Application
             .ConfigureServices((_, services) =>
             {
                 services.AddDbContext<SistemaGabinosDBContext>(options =>
-                    options.UseSqlite("Data Source=SistemaGabinos.db")
-                           .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning)));
+                {
+                    string dbPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SistemaGabinos.db");
+                    options.UseSqlite($"Data Source={dbPath}")
+                           .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+                });
 
                 services.AddScoped<IAlumnoRepository, AlumnoRepository>();
                 services.AddScoped<ICursoRepository, CursoRepository>();
@@ -89,6 +92,28 @@ public partial class App : System.Windows.Application
             // Startup Check F3: Generación por Aniversario de Inscripción
             var generarMensualidadesUseCase = scope.ServiceProvider.GetRequiredService<IGenerarMensualidadesAniversarioUseCase>();
             generarMensualidadesUseCase.Ejecutar();
+
+            // Búsqueda y descarga silenciosa de actualizaciones en segundo plano
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    using var updateScope = _host.Services.CreateScope();
+                    var updateService = updateScope.ServiceProvider.GetRequiredService<SistemaGabinos.Infrastructure.Updates.IUpdateService>();
+                    if (updateService.EsAplicacionInstalada)
+                    {
+                        var check = await updateService.ComprobarActualizacionAsync();
+                        if (check.HayActualizacion && check.UpdateInfo != null)
+                        {
+                            await updateService.DescargarActualizacionAsync(check.UpdateInfo, _ => { });
+                        }
+                    }
+                }
+                catch
+                {
+                    // Ignorar silenciosamente si no hay conexión a internet al iniciar
+                }
+            });
         }
 
         base.OnStartup(e);
