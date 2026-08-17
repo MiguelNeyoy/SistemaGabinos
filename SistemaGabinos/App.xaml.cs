@@ -27,7 +27,7 @@ public partial class App : System.Windows.Application
             {
                 services.AddDbContext<SistemaGabinosDBContext>(options =>
                 {
-                    string dbPath = ObtenerRutaBaseDeDatos();
+                    string dbPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SistemaGabinos.db");
                     options.UseSqlite($"Data Source={dbPath}")
                            .ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
                 });
