@@ -124,4 +124,37 @@ public partial class App : System.Windows.Application
         _host?.Dispose();
         base.OnExit(e);
     }
+
+    private static string ObtenerRutaBaseDeDatos()
+    {
+        string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string carpetaDatos = System.IO.Path.Combine(appData, "SistemaGabinos");
+
+        if (!System.IO.Directory.Exists(carpetaDatos))
+        {
+            System.IO.Directory.CreateDirectory(carpetaDatos);
+        }
+
+        string rutaSegura = System.IO.Path.Combine(carpetaDatos, "SistemaGabinos.db");
+
+        // Migración automática: si no existe en AppData pero sí existe en la carpeta de la app
+        if (!System.IO.File.Exists(rutaSegura))
+        {
+            string rutaLegacyBaseDir = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SistemaGabinos.db");
+            if (System.IO.File.Exists(rutaLegacyBaseDir))
+            {
+                System.IO.File.Copy(rutaLegacyBaseDir, rutaSegura);
+            }
+            else
+            {
+                string rutaLegacyCwd = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "SistemaGabinos.db");
+                if (System.IO.File.Exists(rutaLegacyCwd))
+                {
+                    System.IO.File.Copy(rutaLegacyCwd, rutaSegura);
+                }
+            }
+        }
+
+        return rutaSegura;
+    }
 }
