@@ -192,7 +192,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             Total += item.Monto;
     }
 
-    public event Action<int>? NavegarACobroSolicitado;
+    public event Action<int>? NavegarAExpedienteSolicitado;
 
     [RelayCommand]
     private void Registrar()
@@ -219,7 +219,7 @@ public partial class NuevaMatriculaViewModel : ObservableObject
             MensajeExitoVisible = System.Windows.Visibility.Visible;
             MensajeErrorVisible = System.Windows.Visibility.Collapsed;
 
-            NavegarACobroSolicitado?.Invoke(response.AlumnoId);
+            NavegarAExpedienteSolicitado?.Invoke(response.AlumnoId);
         }
         catch (FluentValidation.ValidationException vex)
         {
